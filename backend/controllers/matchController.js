@@ -1,5 +1,6 @@
 import Match from "../models/match";
 import Player from "../models/player";
+import { calculateRating } from "../utils/calculateRating";
 
 export const createMatch = async (tournamentId, players, location) => {
     try {
@@ -15,6 +16,10 @@ export const createMatch = async (tournamentId, players, location) => {
             location
         })
         await match.save();
+        player1.matches.push(match._id);
+        player2.matches.push(match._id);
+        await player1.save();
+        await player2.save();
         return match._id;
     } catch (error) {
         console.error("Error creating match:", error);
@@ -34,6 +39,29 @@ export const editMatchDate = async (matchId, newDate) => {
     } catch (error) {
         console.error("Error editing match date:", error);
         throw new Error("Error editing match date");
+    }
+}
+
+export const deleteMatch = async (matchId) => {
+    try {
+        const match = await Match.findById(matchId);
+        if (!match) {
+            throw new Error("Match not found");
+        }
+        const player1 = await Player.findById(match.player1Id);
+        const player2 = await Player.findById(match.player2Id);
+        if (!player1 || !player2) {
+            throw new Error("Player not found");
+        }
+        player1.matches = player1.matches.filter(id => id.toString() !== matchId.toString());
+        player2.matches = player2.matches.filter(id => id.toString() !== matchId.toString());
+        await player1.save();
+        await player2.save();
+        await match.deleteOne();
+        return { message: "Match deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting match:", error);
+        throw new Error("Error deleting match");
     }
 }
 
@@ -62,6 +90,12 @@ export const endMatch = async (matchId, winnerId, scores) => {
         match.winnerId = winnerId;
         match.scores = scores;
         await match.save();
+        const player1 = await Player.findById(match.player1Id);
+        const player2 = await Player.findById(match.player2Id);
+        if (!player1 || !player2) {
+            throw new Error("Player not found");
+        }
+        await calculateRating(matchId);
         return match;
     } catch (error) {
         console.error("Error ending match:", error);

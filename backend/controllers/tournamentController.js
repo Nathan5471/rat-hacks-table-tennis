@@ -1,7 +1,7 @@
 import Tournament from "../models/tournament";
 import Match from "../models/match";
 import Player from "../models/player";
-import matchController from "./matchController";
+import { createMatch, editMatchDate, startMatch, endMatch } from "./matchController";
 import generateBracket from "../utils/bracketGenerator";
 
 export const createTournament = async (req, res) => {
@@ -94,9 +94,34 @@ export const startTournament = async (tournamentId) => {
             throw new Error('Not enough players to start the tournament');
         }
 
-        const bracket = generateBracket(players, tournament.format, tournamentId, tournament.startDate, tournament.location);
-        
+        let bracket = generateBracket(players, tournament.format, tournamentId, tournament.startDate, tournament.location);
+        const matches = await Promise.all(bracket.map(async (match) => {
+            const newMatchId = await createMatch(tournamentId, match.players, tournament.location);
+            return newMatchId;
+        }))
+        bracket.matches = matches;
+        tournament.bracket = bracket;
+        await tournament.save();
+        await startMatch(bracket.matches[0]);
+        res.status(200).json({ message: 'Tournament started successfully', tournament });
     } catch (error) {
         console.error('Error starting tournament:', error)
+    }
+}
+
+export const endTournament = async (tournamentId) => {
+    try {
+        const tournament = await Tournament.findById(tournamentId);
+        if (!tournament) {
+            throw new Error('Tournament not found');
+        }
+        if (tournament.status !== 'ongoing') {
+            throw new Error('Tournament not ongoing');
+        }
+        tournament.status = 'completed';
+        await tournament.save();
+    } catch (error) {
+        console.error('Error ending tournament:', error);
+        throw new Error('Error ending tournament');
     }
 }

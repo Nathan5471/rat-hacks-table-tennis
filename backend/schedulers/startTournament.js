@@ -20,6 +20,6 @@ const startTournaments = async () => {
 // Schedule the task to run every minute
 cron.schedule('* * * * *', () => {
     console.log('Running start tournaments task...');
-    startTournament();
+    startTournaments();
     console.log('Start tournaments task completed.');
 });
