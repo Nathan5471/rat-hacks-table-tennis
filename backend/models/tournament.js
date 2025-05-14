@@ -26,11 +26,6 @@ const tournamentSchema = new mongoose.Schema({
         enum: ['upcoming', 'ongoing', 'completed'],
         default: 'upcoming'
     },
-    format: {
-        type: String,
-        enum: ['single-elimination', 'double-elimination', 'round-robin'],
-        required: true
-    },
     bracket: [{
         roundNumber: {
             type: Number,

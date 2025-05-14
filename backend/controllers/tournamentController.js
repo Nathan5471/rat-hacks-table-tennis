@@ -3,16 +3,16 @@ import Match from "../models/match";
 import Player from "../models/player";
 import { createMatch, editMatchDate, startMatch, endMatch } from "./matchController";
 import generateBracket from "../utils/bracketGenerator";
+import generateNextRound from "../utils/bracketNextRoundGenerator";
 
 export const createTournament = async (req, res) => {
-    const { name, location, startDate, format } = req.body;
+    const { name, location, startDate } = req.body;
     try {
         const tournament = new Tournament({
             name,
             location,
             startDate,
             status: "upcoming",
-            format
         })
         await tournament.save();
         res.status(201).json({ message: 'Tournament created successfully', tournament });
@@ -94,7 +94,7 @@ export const startTournament = async (tournamentId) => {
             throw new Error('Not enough players to start the tournament');
         }
 
-        let bracket = generateBracket(players, tournament.format, tournamentId, tournament.startDate, tournament.location);
+        let bracket = generateBracket(players);
         const matches = await Promise.all(bracket.map(async (match) => {
             const newMatchId = await createMatch(tournamentId, match.players, tournament.location);
             return newMatchId;
@@ -106,6 +106,75 @@ export const startTournament = async (tournamentId) => {
         res.status(200).json({ message: 'Tournament started successfully', tournament });
     } catch (error) {
         console.error('Error starting tournament:', error)
+    }
+}
+
+export const tournamentNextMatch = async (tournamentId, lastMatchId, currentRound) => {
+    try {
+        const tournament = await Tournament.findById(tournamentId);
+        if (!tournament) {
+            throw new Error('Tournament not found');
+        }
+        if (tournament.status !== 'ongoing') {
+            throw new Error('Tournament not ongoing');
+        }
+        const bracket = tournament.bracket;
+        const currentRoundData = bracket.find(round => round.roundNumber === currentRound);
+        const lastMatchIndex = currentRoundData.matches.findIndex(match => match._id.toString() === lastMatchId);
+        if (lastMatchIndex === -1) {
+            await tournamentNextRound(tournamentId, currentRound);
+            return;
+        }
+        const nextMatchIndex = lastMatchIndex + 1;
+        if (nextMatchIndex >= currentRoundData.matches.length) {
+            await tournamentNextRound(tournamentId, currentRound);
+            return;
+        }
+        const nextMatchId = currentRoundData.matches[nextMatchIndex];
+        const nextMatch = await Match.findById(nextMatchId);
+        if (!nextMatch) {
+            throw new Error('No next match found');
+        }
+        await startMatch(nextMatch._id);
+        return nextMatch;
+    } catch (error) {
+        console.error('Error getting next match:', error);
+        throw new Error('Error getting next match');
+    }
+}
+
+export const tournamentNextRound = async (tournamentId, currentRound) => {
+    try {
+        const tournament = await Tournament.findById(tournamentId);
+        if (!tournament) {
+            throw new Error('Tournament not found');
+        }
+        if (tournament.status !== 'ongoing') {
+            throw new Error('Tournament not ongoing');
+        }
+        const bracket = tournament.bracket;
+        const currentRoundData = bracket.find(round => round.roundNumber === currentRound);
+        if (!currentRoundData) {
+            throw new Error('Current round not found');
+        }
+        if (currentRoundData.matches.length <= 1 && currentRoundData.byes.length === 0) {
+            tournament.status = 'completed';
+            await tournament.save();
+            return;
+        }
+        const nextRound = await generateNextRound(currentRoundData);
+        const nextRoundMatches = await Promise.all(nextRound.matches.map(async (match) => {
+            const newMatchId = await createMatch(tournamentId, match.players, tournament.location);
+            return newMatchId;
+        }))
+        nextRound.matches = nextRoundMatches;
+        bracket.push(nextRound);
+        tournament.bracket = bracket;
+        await tournament.save();
+        return nextRound;
+    } catch (error) {
+        console.error('Error getting next round:', error);
+        throw new Error('Error getting next round');
     }
 }
 

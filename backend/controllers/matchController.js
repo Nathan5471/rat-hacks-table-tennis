@@ -1,5 +1,6 @@
 import Match from "../models/match";
 import Player from "../models/player";
+import { tournamentNextMatch } from "./tournamentController";
 import { calculateRating } from "../utils/calculateRating";
 
 export const createMatch = async (tournamentId, players, location) => {
@@ -96,6 +97,7 @@ export const endMatch = async (matchId, winnerId, scores) => {
             throw new Error("Player not found");
         }
         await calculateRating(matchId);
+        await tournamentNextMatch(match.tournamentId, match._id, match.roundNumber);
         return match;
     } catch (error) {
         console.error("Error ending match:", error);
