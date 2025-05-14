@@ -1,16 +1,17 @@
 import Tournament from "../models/tournament";
 import Match from "../models/match";
 import Player from "../models/player";
+import matchController from "./matchController";
 import generateBracket from "../utils/bracketGenerator";
 
-const createTournament = async (req, res) => {
+export const createTournament = async (req, res) => {
     const { name, location, startDate, format } = req.body;
     try {
         const tournament = new Tournament({
             name,
             location,
             startDate,
-            "status": "upcoming",
+            status: "upcoming",
             format
         })
         await tournament.save();
@@ -21,7 +22,7 @@ const createTournament = async (req, res) => {
     }
 }
 
-const addPlayerToTournament = async (req, res) => {
+export const addPlayerToTournament = async (req, res) => {
     const { tournamentId, playerId } = req.body;
     try {
         const tournament = await Tournament.findById(tournamentId);
@@ -49,7 +50,7 @@ const addPlayerToTournament = async (req, res) => {
     }
 }
 
-const removePlayerFromTournament = async (req, res) => {
+export const removePlayerFromTournament = async (req, res) => {
     const { tournamentId, playerId } = req.body;
     try {
         const tournament = await Tournament.findById(tournamentId);
@@ -77,7 +78,7 @@ const removePlayerFromTournament = async (req, res) => {
     }
 }
 
-const startTournament = async (tournamentId) => {
+export const startTournament = async (tournamentId) => {
     try {
         const tournament = await Tournament.findById(tournamentId);
         if (!tournament) {
@@ -93,7 +94,9 @@ const startTournament = async (tournamentId) => {
             throw new Error('Not enough players to start the tournament');
         }
 
-        const bracket = generateBracket(players, tournament.format);
+        const bracket = generateBracket(players, tournament.format, tournamentId, tournament.startDate, tournament.location);
         
+    } catch (error) {
+        console.error('Error starting tournament:', error)
     }
 }
