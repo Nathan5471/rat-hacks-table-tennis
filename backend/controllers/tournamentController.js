@@ -194,3 +194,17 @@ export const endTournament = async (tournamentId) => {
         throw new Error('Error ending tournament');
     }
 }
+
+export const getTournament = async (req, res) => {
+    const { tournamentId } = req.params;
+    try {
+        const tournament = await Tournament.findById(tournamentId).populate('playerIds');
+        if (!tournament) {
+            return res.status(404).json({ message: 'Tournament not found' });
+        }
+        res.status(200).json({ tournament });
+    } catch (error) {
+        console.error('Error getting tournament:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute.js';
+import tournamentRoute from './routes/tournamentRoute.js';
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use('/api/auth', authRoute);
+app.use('/api/tournament', tournamentRoute);
+app.use('/api/match', matchRoute);
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
     console.log('MongoDB connected');
