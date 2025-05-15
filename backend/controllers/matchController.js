@@ -28,13 +28,14 @@ export const createMatch = async (tournamentId, players, location) => {
     }
 }
 
-export const editMatchDate = async (matchId, newDate) => {
+export const setMatchDate = async (matchId, newDate) => {
     try {
         const match = await Match.findById(matchId);
         if (!match) {
             throw new Error("Match not found");
         }
         match.date = newDate;
+        match.status = "scheduled";
         await match.save();
         return match;
     } catch (error) {

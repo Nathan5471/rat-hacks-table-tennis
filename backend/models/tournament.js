@@ -17,6 +17,11 @@ const tournamentSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    timeBetweenMatch: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     playerIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Player'

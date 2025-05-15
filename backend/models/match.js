@@ -33,7 +33,7 @@ const matchSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: null
     },
     location: {
         type: String,
@@ -41,8 +41,8 @@ const matchSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['scheduled', 'in-progress', 'completed'],
-        default: 'scheduled'
+        enum: ['un-scheduled', 'scheduled', 'in-progress', 'completed'],
+        default: 'un-scheduled'
     }
 });
 

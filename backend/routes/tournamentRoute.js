@@ -5,9 +5,9 @@ import { createTournament, addPlayerToTournament, removePlayerFromTournament, ge
 router = express.Router()
 
 router.post('/create', authenticate, async (req, res) => {
-    const { name, location, startDate } = req.body;
+    const { name, location, startDate, timeBetweenMatch } = req.body;
     try {
-        if (!name || !location || !startDate) {
+        if (!name || !location || !startDate || !timeBetweenMatch) {
             return res.status(400).json({ message: 'All fields are required'})
         }
         createTournament(req, res)

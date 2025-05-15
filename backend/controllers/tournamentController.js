@@ -1,12 +1,12 @@
 import Tournament from "../models/tournament";
 import Match from "../models/match";
 import Player from "../models/player";
-import { createMatch, editMatchDate, startMatch, endMatch } from "./matchController";
+import { createMatch, setMatchDate, startMatch, endMatch } from "./matchController";
 import generateBracket from "../utils/bracketGenerator";
 import generateNextRound from "../utils/bracketNextRoundGenerator";
 
 export const createTournament = async (req, res) => {
-    const { name, location, startDate } = req.body;
+    const { name, location, startDate, timeBetweenMatch } = req.body;
     const { organizerId } = req.playerId
     try {
         const organizer = Player.findById(organizerId)
@@ -18,6 +18,7 @@ export const createTournament = async (req, res) => {
             location,
             organizer: organizerId,
             startDate,
+            timeBetweenMatch,
             status: "upcoming",
         })
         await tournament.save();
@@ -143,8 +144,14 @@ export const tournamentNextMatch = async (tournamentId, lastMatchId, currentRoun
         if (!nextMatch) {
             throw new Error('No next match found');
         }
-        await startMatch(nextMatch._id);
+        if (tournament.timeBetweenMatch === 0) {
+            await setMatchDate(nextMatch._id, new Date())
+            await startMatch(nextMatch._id)
+            return nextMatch;
+        }
+        await setMatchDate(nextMatch._id, new Date(Date.now() + tournament.timeBetweenMatch * 1000));
         return nextMatch;
+        
     } catch (error) {
         console.error('Error getting next match:', error);
         throw new Error('Error getting next match');
