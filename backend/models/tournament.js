@@ -9,6 +9,10 @@ const tournamentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    organizer: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     startDate: {
         type: Date,
         required: true

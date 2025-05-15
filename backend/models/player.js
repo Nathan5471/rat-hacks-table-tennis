@@ -14,6 +14,12 @@ const playerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    accountType: {
+        type: String,
+        enum: ['user', 'organizer', 'admin'],
+        default: 'user',
+        required: true
+    },
     tournaments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tournament'

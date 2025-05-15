@@ -1,9 +1,10 @@
 import express from 'express'
+import authenticate from '../middleware/authenticate'
 import { createTournament, addPlayerToTournament, removePlayerFromTournament, getTournament } from '../controllers/tournamentController'
 
 router = express.Router()
 
-router.post('/create', async (req, res) => {
+router.post('/create', authenticate, async (req, res) => {
     const { name, location, startDate } = req.body;
     try {
         if (!name || !location || !startDate) {
@@ -15,10 +16,10 @@ router.post('/create', async (req, res) => {
     }
 })
 
-router.post('/addPlayer', async (req, res) => {
-    const { tournamentId, playerId } = req.body;
+router.post('/addPlayer', authenticate, async (req, res) => {
+    const { tournamentId } = req.body;
     try {
-        if (!tournamentId || !playerId) {
+        if (!tournamentId) {
             return res.status(400).json({ message: 'All fields are required'})
         }
         addPlayerToTournament(req, res)
@@ -27,10 +28,10 @@ router.post('/addPlayer', async (req, res) => {
     }
 })
 
-router.post('/removePlayer', async (req, res) => {
-    const { tournamentId, playerId } = req.body;
+router.post('/removePlayer', authenticate, async (req, res) => {
+    const { tournamentId } = req.body;
     try {
-        if (!tournamentId || !playerId) {
+        if (!tournamentId) {
             return res.status(400).json({ message: 'All fields are required'})
         }
         removePlayerFromTournament(req, res)

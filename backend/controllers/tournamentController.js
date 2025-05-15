@@ -7,10 +7,16 @@ import generateNextRound from "../utils/bracketNextRoundGenerator";
 
 export const createTournament = async (req, res) => {
     const { name, location, startDate } = req.body;
+    const { organizerId } = req.playerId
     try {
+        const organizer = Player.findById(organizerId)
+        if (organizer.accountType == 'user') {
+            return res.status(401).json({ message: 'Player is not allowed to create tournament'})
+        }
         const tournament = new Tournament({
             name,
             location,
+            organizer: organizerId,
             startDate,
             status: "upcoming",
         })
@@ -23,7 +29,8 @@ export const createTournament = async (req, res) => {
 }
 
 export const addPlayerToTournament = async (req, res) => {
-    const { tournamentId, playerId } = req.body;
+    const { tournamentId } = req.body;
+    const { playerId } = req.playerId;
     try {
         const tournament = await Tournament.findById(tournamentId);
         if (!tournament) {
@@ -51,7 +58,8 @@ export const addPlayerToTournament = async (req, res) => {
 }
 
 export const removePlayerFromTournament = async (req, res) => {
-    const { tournamentId, playerId } = req.body;
+    const { tournamentId } = req.body;
+    const { playerId } = req.playerId;
     try {
         const tournament = await Tournament.findById(tournamentId);
         if (!tournament) {
