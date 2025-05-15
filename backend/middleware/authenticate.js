@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Player } from '../models/player';
+import Player from '../models/player.js';
 
 export default function authenticate(req, res, next) {
     try {

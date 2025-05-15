@@ -1,4 +1,4 @@
-import Player from "../models/player";
+import Player from "../models/player.js";
 
 export const calculateRating = async (matchId) => {
     const match = await Match.findById(matchId);

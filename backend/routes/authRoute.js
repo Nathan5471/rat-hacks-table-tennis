@@ -1,7 +1,7 @@
 import express from 'express'
-import { registerPlayer, loginPlayer } from '../controllers/playerController';
+import { registerPlayer, loginPlayer } from '../controllers/playerController.js'
 
-router = express.Router()
+const router = express.Router()
 
 router.post('/register', async (req, res) => {
     const { fullName, email, password } = req.body;
@@ -26,3 +26,5 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Error logging in player'})
     }
 })
+
+export default router

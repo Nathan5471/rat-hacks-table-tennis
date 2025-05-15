@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute.js';
 import tournamentRoute from './routes/tournamentRoute.js';
+import matchRoute from './routes/matchRoute.js';
 
 dotenv.config();
 

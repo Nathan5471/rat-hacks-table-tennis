@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { startMatch } from '../controllers/matchController';
-import Match from '../models/match';
+import { startMatch } from '../controllers/matchController.js';
+import Match from '../models/match.js';
 
 const startMatches = async () => {
     try {

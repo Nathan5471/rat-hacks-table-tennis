@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import RatingHistory from '../models/ratingHistory';
+import RatingHistory from '../models/ratingHistory.js';
 
 const updateRating = async () => {
     try {

@@ -1,9 +1,9 @@
-import Tournament from "../models/tournament";
-import Match from "../models/match";
-import Player from "../models/player";
-import { createMatch, setMatchDate, startMatch, endMatch } from "./matchController";
-import generateBracket from "../utils/bracketGenerator";
-import generateNextRound from "../utils/bracketNextRoundGenerator";
+import Tournament from "../models/tournament.js";
+import Match from "../models/match.js";
+import Player from "../models/player.js";
+import { createMatch, setMatchDate, startMatch, endMatch } from "./matchController.js";
+import generateBracket from "../utils/bracketGenerator.js";
+import generateNextRound from "../utils/bracketNextRoundGenerator.js";
 
 export const createTournament = async (req, res) => {
     const { name, location, startDate, timeBetweenMatch } = req.body;

@@ -1,7 +1,7 @@
-import Match from "../models/match";
-import Player from "../models/player";
-import { tournamentNextMatch } from "./tournamentController";
-import { calculateRating } from "../utils/calculateRating";
+import Match from "../models/match.js";
+import Player from "../models/player.js";
+import { tournamentNextMatch } from "./tournamentController.js";
+import { calculateRating } from "../utils/calculateRating.js";
 
 export const createMatch = async (tournamentId, players, location) => {
     try {

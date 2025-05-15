@@ -1,4 +1,4 @@
-import Match from "../models/match";
+import Match from "../models/match.js";
 
 const generateNextRound = async (currentRoundData) => {
     const currentRound = currentRoundData.roundNumber;

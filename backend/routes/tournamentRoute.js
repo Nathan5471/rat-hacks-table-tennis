@@ -1,8 +1,8 @@
 import express from 'express'
-import authenticate from '../middleware/authenticate'
-import { createTournament, addPlayerToTournament, removePlayerFromTournament, getTournament } from '../controllers/tournamentController'
+import authenticate from '../middleware/authenticate.js'
+import { createTournament, addPlayerToTournament, removePlayerFromTournament, getTournament } from '../controllers/tournamentController.js'
 
-router = express.Router()
+const router = express.Router()
 
 router.post('/create', authenticate, async (req, res) => {
     const { name, location, startDate, timeBetweenMatch } = req.body;

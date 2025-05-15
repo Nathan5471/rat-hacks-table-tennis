@@ -1,6 +1,6 @@
 import cron from 'node-cron'
-import { startTournament } from '../controllers/tournamentController'
-import Tournament from '../models/tournament'
+import { startTournament } from '../controllers/tournamentController.js'
+import Tournament from '../models/tournament.js'
 
 const startTournaments = async () => {
     try {

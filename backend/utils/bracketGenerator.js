@@ -1,4 +1,4 @@
-import nearestPowerOfTwo from "./nearestPowerOfTwo";
+import nearestPowerOfTwo from "./nearestPowerOfTwo.js";
 
 const generateBracket = (players) => {
     const numPlayers = players.length;
