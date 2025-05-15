@@ -8,7 +8,8 @@ export const registerPlayer = async (req, res) => {
     try {
         const existingEmail = await Player.findone({ email });
         if (existingEmail) {
-            return res.status(400).json({ message: 'Email already exists'});
+            // TODO: Check and make sure this is the right error code
+            return res.status(401).json({ message: 'Email already exists'});
         }
 
         // TODO: Add salting
