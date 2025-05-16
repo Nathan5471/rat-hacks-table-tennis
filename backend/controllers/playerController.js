@@ -69,3 +69,57 @@ export const loginPlayer = async (req, res) => {
         res.status(500).json({ message: 'Error loggin in'})
     }
 }
+
+export const getPlayerTournaments = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const player = Player.findById(playerId)
+        if (!player) {
+            return res.status(404).json({ message: "Player not found" })
+        }
+        const tournaments = player.tournaments
+        if (!tournaments) {
+            return []
+        }
+        res.status(200).json({ tournaments })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Error getting tournaments"})
+    }
+}
+
+export const getPlayerMatches = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const player = Player.findById(playerId)
+        if (!player) {
+            return res.status(404).json({ message: "Player not found"})
+        }
+        const matches = player.matches
+        if (!matches) {
+            return []
+        }
+        res.status(200).json({ matches })
+    } catch (error) {
+        constole.error(error)
+        res.status(500).json({ message: "Error getting matches"})
+    }
+}
+
+export const getPlayerRating = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const player = Player.findById(playerId)
+        if (!player) {
+            return res.status(404).json({ message: "Player not found"})
+        }
+        const rating = player.matches
+        if (!rating) {
+            return res.status(404).json({ message: "Player does not have a rating"})
+        }
+        res.status(200).json({ rating })
+    } catch (error) {
+        constole.error(error)
+        res.status(500).json({ message: "Error getting rating"})
+    }
+}
