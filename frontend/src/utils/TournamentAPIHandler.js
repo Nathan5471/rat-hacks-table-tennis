@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:5000/api/tournament'
-const playerUrl = 'http://localhost:5000/api/player'
 
 const createTournament = async (tournamentInfo) => {
     try {
@@ -87,22 +86,4 @@ const getTournament = async (tournamentId) => {
     }
 }
 
-const getPlayerTournaments = async () => {
-    try {
-        const response = axios.get(`${playerUrl}/tournaments`, { withCredentials: true});
-        if (response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        if (error.response && error.response.status === 401) {
-            throw new Error("Player not logged in")
-        } else if (error.response && error.response.status === 404) {
-            throw new Error("Player not found")
-        } else {
-            console.error(error)
-            throw new Error("Unknown error getting player's tournaments")
-        }
-    }
-}
-
-export {createTournament, joinTournament, leaveTournament, getTournament, getPlayerTournaments}
+export {createTournament, joinTournament, leaveTournament, getTournament}

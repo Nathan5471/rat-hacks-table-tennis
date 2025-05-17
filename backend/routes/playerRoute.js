@@ -1,6 +1,6 @@
 import express from 'express'
 import authenticate from '../middleware/authenticate'
-import { getPlayerTournaments, getPlayerMatches, getPlayerRating } from '../controllers/playerController'
+import { getPlayerTournaments, getPlayerMatches, getPlayerRating, getPlayer } from '../controllers/playerController'
 
 const router = express.Router()
 
@@ -25,6 +25,14 @@ router.get('/rating', authenticate, async (req, res) => {
         getPlayerRating(req, res)
     } catch (error) {
         res.status(500).json({ message: 'Error getting rating'})
+    }
+})
+
+router.get('/', authenticate, async (req, res) => {
+    try {
+        getPlayer(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting player'})
     }
 })
 

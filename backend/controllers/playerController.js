@@ -114,12 +114,23 @@ export const getPlayerRating = async (req, res) => {
             return res.status(404).json({ message: "Player not found"})
         }
         const rating = player.matches
-        if (!rating) {
-            return res.status(404).json({ message: "Player does not have a rating"})
-        }
         res.status(200).json({ rating })
     } catch (error) {
         constole.error(error)
         res.status(500).json({ message: "Error getting rating"})
+    }
+}
+
+export const getPlayer = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const player = Player.findById(playerId)
+        if (!player) {
+            return res.status(404).json({ message: "Player not found"})
+        }
+        res.status(200).json(player)
+    } catch (error) {
+        constole.error(error)
+        res.status(500).json({ message: "Error getting player"})
     }
 }
