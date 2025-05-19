@@ -1,4 +1,5 @@
 import express from 'express';
+import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -10,6 +11,7 @@ import matchRoute from './routes/matchRoute.js';
 dotenv.config();
 
 const app = express();
+const io = new Server()
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
