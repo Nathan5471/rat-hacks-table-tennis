@@ -26,7 +26,11 @@ module.exports = (io, socket) => {
 
         const winner = findWinner(player1Score, player2Score);
         if (winner) {
-            io.to(matchId).emit('gameOver', { winner });
+            const scores = {
+                player1Score: matachData[matchId].player1Score,
+                player2Score: matachData[matchId].player2Score,
+            };
+            io.to(matchId).emit('gameOver', { scores, winner });
             winnerHandler(matchId);
             delete matachData[matchId];
         } else {
