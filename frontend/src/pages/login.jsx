@@ -17,7 +17,7 @@ export default function Login() {
         try {
             const result = await login(userInfo);
             if (result) {
-                navigate('/home');
+                navigate('/app/home');
             }
         } catch (error) {
             if (error === 'All fields are required') {
