@@ -1,6 +1,6 @@
 import express from 'express'
-import authenticate from '../middleware/authenticate'
-import { getPlayerTournaments, getPlayerMatches, getPlayerRating, getPlayer } from '../controllers/playerController'
+import authenticate from '../middleware/authenticate.js'
+import { getPlayerTournaments, getPlayerMatches, getPlayerRating, getPlayer } from '../controllers/playerController.js'
 
 const router = express.Router()
 
