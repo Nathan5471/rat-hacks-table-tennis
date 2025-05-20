@@ -1,5 +1,6 @@
 import express from 'express'
 import { registerPlayer, loginPlayer } from '../controllers/playerController.js'
+import authenticate from '../middleware/authenticate.js'
 
 const router = express.Router()
 
@@ -24,6 +25,18 @@ router.post('/', async (req, res) => {
         loginPlayer(req, res)
     } catch (error) {
         res.status(500).json({ message: 'Error logging in player'})
+    }
+})
+
+router.post('/isLoggedIn', authenticate, async (req, res) => {
+    try {
+        const player = await Player.findById(req.player._id)
+        if (!player) {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
+        res.status(200).json({ message: 'Logged in', player })
+    } catch (error) {
+        res.status(500).json({ message: 'Error checking login status' })
     }
 })
 

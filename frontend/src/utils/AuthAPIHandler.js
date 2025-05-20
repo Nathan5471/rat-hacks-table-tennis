@@ -38,4 +38,20 @@ const login = async (loginInfo) => {
     }
 }
 
-export {register, login}
+const isLoggedIn = async () => {
+    try {
+        const response = await axios.post(`${baseUrl}/isLoggedIn`, {}, { withCredentials: true })
+        if (response.status === 200) {
+            return true
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            return false
+        } else {
+            console.error(error)
+            throw new Error("An unkown error occured while checking login status")
+        }
+    }
+}
+
+export {register, login, isLoggedIn}
