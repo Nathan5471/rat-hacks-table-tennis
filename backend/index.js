@@ -3,6 +3,7 @@ import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import authRoute from './routes/authRoute.js';
 import playerRouter from './routes/playerRoute.js'
 import tournamentRoute from './routes/tournamentRoute.js';
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cookieParser());
 app.use('/api/auth', authRoute);
 app.use('/api/player', playerRouter);
 app.use('/api/tournament', tournamentRoute);

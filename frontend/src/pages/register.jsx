@@ -17,10 +17,8 @@ export default function Register() {
             password
         }
         try {
-            const result = await register(userInfo);
-            if (result) {
-                navigate('/login');
-            }
+            await register(userInfo);
+            navigate('/login');
         } catch (error) {
             if (error === 'All fields are required') {
                 setError('All fields are required');
@@ -67,6 +65,9 @@ export default function Register() {
                         required
                     />
                     <button type="submit" onClick={registerHandler} className="bg-[#144922] text-white p-2 rounded-md mt-2 w-full transform transition duration-200 ease-in-out hover:scale-105 hover:bg-[#62A663] focus:outline-none">Register</button>
+                </div>
+                <div className="mt-4 text-center">
+                    <p className="text-gray-700">Already have an account? <a href="/login" className="text-[#144922] hover:underline">Login</a></p>
                 </div>
             </form>
         </div>

@@ -6,7 +6,7 @@ export const registerPlayer = async (req, res) => {
     const { fullName, email, password} = req.body;
 
     try {
-        const existingEmail = await Player.findone({ email });
+        const existingEmail = await Player.findOne({ email });
         if (existingEmail) {
             // TODO: Check and make sure this is the right error code
             return res.status(401).json({ message: 'Email already exists'});
@@ -27,7 +27,7 @@ export const registerPlayer = async (req, res) => {
 
         res.status(201).json({
             user: {
-                _id: newUser._id,
+                _id: newPlayer._id,
                 fullName,
                 email
             }
@@ -42,7 +42,7 @@ export const loginPlayer = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const player = await Player.findone({ email })
+        const player = await Player.findOne({ email })
         if (!player) {
             return res.status(401).json({ message: 'Invalid email or password'})
         }
@@ -55,13 +55,13 @@ export const loginPlayer = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict',
+            sameSite: 'None',
         })
         res.status(200).json({
-            user: {
-                _id: user._id,
-                name: user.fullName,
-                email: user.email
+            player: {
+                _id: player._id,
+                name: player.fullName,
+                email: player.email
             }
         })
     } catch (error) {

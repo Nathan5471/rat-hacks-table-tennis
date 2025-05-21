@@ -15,10 +15,8 @@ export default function Login() {
             password
         }
         try {
-            const result = await login(userInfo);
-            if (result) {
-                navigate('/app/home');
-            }
+            await login(userInfo);
+            navigate('/app/home');
         } catch (error) {
             if (error === 'All fields are required') {
                 setError('All fields are required');
@@ -57,7 +55,11 @@ export default function Login() {
                     />
                     <button type="submit" onClick={loginHandler} className="bg-[#144922] text-white p-2 rounded-md mt-2 w-full transform transition duration-200 ease-in-out hover:scale-105 hover:bg-[#62A663] focus:outline-none">Login</button>
                 </div>
+                <div className="mt-4 text-center">
+                    <p className="text-gray-700">Don't have an account? <a href="/register" className="text-[#144922] hover:underline">Register</a></p>
+                </div>
             </form>
+            
         </div>
     )
 }
