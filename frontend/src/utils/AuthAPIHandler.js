@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:5000/api/auth';
+const baseUrl = 'https://dd0b-24-149-102-194.ngrok-free.app/api/auth';
 
 const register = async (userInfo) => {
     try {
@@ -40,7 +40,10 @@ const login = async (loginInfo) => {
 
 const isLoggedIn = async () => {
     try {
-        const response = await axios.post(`${baseUrl}/isLoggedIn`, {}, { withCredentials: true })
+        const response = await axios(`${baseUrl}/isLoggedIn`, {
+            method: 'POST',
+            withCredentials: true,
+        })
         if (response.status === 200) {
             return true
         }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:5000/api/match'
+const baseUrl = 'https://dd0b-24-149-102-194.ngrok-free.app/api/match'
 
 const getMatch = async (matchId) => {
     try {
