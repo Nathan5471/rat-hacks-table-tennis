@@ -78,9 +78,6 @@ export const getPlayerTournaments = async (req, res) => {
             return res.status(404).json({ message: "Player not found" })
         }
         const tournaments = player.tournaments
-        if (!tournaments) {
-            return []
-        }
         res.status(200).json({ tournaments })
     } catch (error) {
         console.error(error)

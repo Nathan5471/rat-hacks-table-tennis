@@ -14,11 +14,11 @@ export default function PlayerTournaments() {
             }
         }
         fetchTournaments();
-    })
+    }, []);
 
     return (
-        <div>
-            <h2>Tournaments</h2>
+        <div className="bg-[#00245C] text-white p-4 rounded-lg flex flex-col">
+            <h2 className="text-2xl">Tournaments</h2>
             {tournaments.length > 0 ? (
                 <ul>
                     {tournaments.map((tournament) => (

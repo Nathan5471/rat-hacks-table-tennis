@@ -3,8 +3,6 @@ import Player from '../models/player.js';
 
 export default function authenticate(req, res, next) {
     try {
-        console.log("cookies:", req.cookies);
-        console.log("token:", req.cookies.token);
         const token = req.cookies.token;
 
         if (!token) {

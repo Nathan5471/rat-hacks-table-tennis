@@ -27,7 +27,11 @@ const playerSchema = new mongoose.Schema({
     matches: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Match'
-    }]
+    }],
+    rating: {
+        type: Number,
+        default: 1000
+    },
 });
 
 const Player = mongoose.model('Player', playerSchema);
