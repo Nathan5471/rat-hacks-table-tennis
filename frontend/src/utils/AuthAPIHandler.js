@@ -1,10 +1,15 @@
 import axios from 'axios'
 
-const baseUrl = 'https://dd0b-24-149-102-194.ngrok-free.app/api/auth';
+const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/auth';
+
+const api = axios.create({
+    baseURL: baseUrl,
+    withCredentials: true,
+})
 
 const register = async (userInfo) => {
     try {
-        const response = axios.post(`${baseUrl}/register`, userInfo)
+        const response = api.post('/register', userInfo)
         if (response.status === 201) {
             return response.data
         }
@@ -22,7 +27,7 @@ const register = async (userInfo) => {
 
 const login = async (loginInfo) => {
     try {
-        const response = axios.post(baseUrl, loginInfo)
+        const response = api.post('/', loginInfo)
         if (response.status === 200) {
             return response.data
         }
@@ -40,10 +45,7 @@ const login = async (loginInfo) => {
 
 const isLoggedIn = async () => {
     try {
-        const response = await axios(`${baseUrl}/isLoggedIn`, {
-            method: 'POST',
-            withCredentials: true,
-        })
+        const response = await api.post('/isLoggedIn')
         if (response.status === 200) {
             return true
         }

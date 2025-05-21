@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://dd0b-24-149-102-194.ngrok-free.app/api/player'
+const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/player'
 
 const getPlayerMatches = async () => {
     try {

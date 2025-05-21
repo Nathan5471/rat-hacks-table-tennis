@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const socket = io('https://dd0b-24-149-102-194.ngrok-free.app/')
+const socket = io('https://a40a-184-170-66-25.ngrok-free.app/')
 
 export const joinMatch = (matchId) => {
     try {

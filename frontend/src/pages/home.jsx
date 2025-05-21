@@ -1,7 +1,11 @@
 import React from 'react';
+import PlayerTournaments from "../componenets/PlayerTournaments"
 
 export default function Home() {
     return (
-        <p>Work In Progress</p>
+        <div>
+            <h1>Welcome to the Player Dashboard</h1>
+            <PlayerTournaments />
+        </div>
     )
 }
