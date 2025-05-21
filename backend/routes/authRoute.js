@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/isLoggedIn', authenticate, async (req, res) => {
+router.get('/isLoggedIn', authenticate, async (req, res) => {
     try {
         const player = await Player.findById(req.playerId)
         if (!player) {

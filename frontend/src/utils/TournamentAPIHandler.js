@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/tournament'
+const baseUrl = 'https://c467-24-149-102-194.ngrok-free.app/api/tournament'
 
 const createTournament = async (tournamentInfo) => {
     try {
@@ -70,7 +70,7 @@ const leaveTournament = async (tournamentId) => {
 
 const getTournament = async (tournamentId) => {
     try {
-        const response = axios.get(`${baseUrl}/${tournamentId}`)
+        const response = axios.get(`${baseUrl}/${tournamentId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }

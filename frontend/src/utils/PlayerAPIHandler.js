@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/player'
+const baseUrl = 'https://c467-24-149-102-194.ngrok-free.app/api/player'
 
 const getPlayerMatches = async () => {
     try {
-        const response = axios.get(`${baseUrl}/matches`, { withCredentials: true});
+        const response = axios.get(`${baseUrl}/matches`, { withCredentials: true, headers: { 'ngrok-skip-browser-warning': 'any' }});
         if (response.status === 200) {
             return response.data
         }
@@ -22,7 +22,7 @@ const getPlayerMatches = async () => {
 
 const getPlayerTournaments = async () => {
     try {
-        const response = axios.get(`${baseUrl}/tournaments`, { withCredentials: true});
+        const response = axios.get(`${baseUrl}/tournaments`, { withCredentials: true, headers: { 'ngrok-skip-browser-warning': 'any' }});
         if (response.status === 200) {
             return response.data
         }
@@ -40,7 +40,7 @@ const getPlayerTournaments = async () => {
 
 const getPlayerRating = async () => {
     try {
-        const response = axios.get(`${baseUrl}/rating`)
+        const response = axios.get(`${baseUrl}/rating`, { withCredentials: true, headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }
@@ -58,7 +58,7 @@ const getPlayerRating = async () => {
 
 const getPlayer = async () => {
     try {
-        const response = axios.get(`${baseUrl}`)
+        const response = axios.get(`${baseUrl}`, { withCredentials: true, headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }

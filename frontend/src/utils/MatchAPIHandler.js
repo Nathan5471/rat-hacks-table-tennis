@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/match'
+const baseUrl = 'https://c467-24-149-102-194.ngrok-free.app/api/match'
 
 const getMatch = async (matchId) => {
     try {
-        const response = axios.get(`${baseUrl}/${matchId}`);
+        const response = axios.get(`${baseUrl}/${matchId}`, {headers: { 'ngrok-skip-browser-warning': 'any' }});
         if (response.status === 200) {
             return response.data
         }

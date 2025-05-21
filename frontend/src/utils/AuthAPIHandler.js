@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://a40a-184-170-66-25.ngrok-free.app/api/auth';
+const baseUrl = 'https://c467-24-149-102-194.ngrok-free.app/api/auth';
 
 const api = axios.create({
     baseURL: baseUrl,
@@ -45,7 +45,7 @@ const login = async (loginInfo) => {
 
 const isLoggedIn = async () => {
     try {
-        const response = await api.post('/isLoggedIn')
+        const response = await api.get('/isLoggedIn', {headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return true
         }
