@@ -73,7 +73,7 @@ export const loginPlayer = async (req, res) => {
 export const getPlayerTournaments = async (req, res) => {
     const playerId = req.playerId;
     try {
-        const player = Player.findById(playerId)
+        const player = await Player.findById(playerId)
         if (!player) {
             return res.status(404).json({ message: "Player not found" })
         }
@@ -91,7 +91,7 @@ export const getPlayerTournaments = async (req, res) => {
 export const getPlayerMatches = async (req, res) => {
     const playerId = req.playerId;
     try {
-        const player = Player.findById(playerId)
+        const player = await Player.findById(playerId)
         if (!player) {
             return res.status(404).json({ message: "Player not found"})
         }
@@ -109,7 +109,7 @@ export const getPlayerMatches = async (req, res) => {
 export const getPlayerRating = async (req, res) => {
     const playerId = req.playerId;
     try {
-        const player = Player.findById(playerId)
+        const player = await Player.findById(playerId)
         if (!player) {
             return res.status(404).json({ message: "Player not found"})
         }
@@ -124,7 +124,7 @@ export const getPlayerRating = async (req, res) => {
 export const getPlayer = async (req, res) => {
     const playerId = req.playerId;
     try {
-        const player = Player.findById(playerId)
+        const player = await Player.findById(playerId)
         if (!player) {
             return res.status(404).json({ message: "Player not found"})
         }

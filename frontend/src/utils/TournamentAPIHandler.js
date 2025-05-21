@@ -1,10 +1,14 @@
 import axios from 'axios'
 
 const baseUrl = 'https://c467-24-149-102-194.ngrok-free.app/api/tournament'
+const api = axios.create({
+    baseURL: baseUrl,
+    withCredentials: true,
+})
 
 const createTournament = async (tournamentInfo) => {
     try {
-        const response = axios.post(`${baseUrl}/create`, tournamentInfo, { withCredentials: true})
+        const response = await api.post('/create', tournamentInfo)
         if (response.status === 201) {
             return response.data
         }
@@ -26,7 +30,7 @@ const createTournament = async (tournamentInfo) => {
 
 const joinTournament = async (tournamentId) => {
     try {
-        const response = axios.post(`${baseUrl}/addPlayer`, tournamentId, { withCredentials: true})
+        const response = await api.post('/addPlayer', tournamentId)
         if (response.status === 200) {
             return response.data
         }
@@ -48,7 +52,7 @@ const joinTournament = async (tournamentId) => {
 
 const leaveTournament = async (tournamentId) => {
     try {
-        const response = axios.post(`${baseUrl}/addPlayer`, tournamentId, { withCredentials: true})
+        const response = await api.post('/removePlayer', tournamentId)
         if (response.status === 200) {
             return response.data
         }
@@ -70,7 +74,7 @@ const leaveTournament = async (tournamentId) => {
 
 const getTournament = async (tournamentId) => {
     try {
-        const response = axios.get(`${baseUrl}/${tournamentId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get(`/${tournamentId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }

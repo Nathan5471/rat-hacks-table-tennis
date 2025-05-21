@@ -9,7 +9,7 @@ const api = axios.create({
 
 const register = async (userInfo) => {
     try {
-        const response = api.post('/register', userInfo)
+        const response = await api.post('/register', userInfo)
         if (response.status === 201) {
             return response.data
         }
@@ -27,7 +27,7 @@ const register = async (userInfo) => {
 
 const login = async (loginInfo) => {
     try {
-        const response = api.post('/', loginInfo)
+        const response = await api.post('/', loginInfo)
         if (response.status === 200) {
             return response.data
         }
