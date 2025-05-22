@@ -118,6 +118,19 @@ export const getPlayerRating = async (req, res) => {
     }
 }
 
+export const getTopRatings = async (req, res) => {
+    try {
+        const topPlayers = await Player.find().sort({ rating: -1 }).limit(10)
+        if (!topPlayers) {
+            return res.status(404).json({ message: "No players found"})
+        }
+        res.status(200).json({ topPlayers })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Error getting top ratings"})
+    }
+}
+
 export const getPlayer = async (req, res) => {
     const playerId = req.playerId;
     try {

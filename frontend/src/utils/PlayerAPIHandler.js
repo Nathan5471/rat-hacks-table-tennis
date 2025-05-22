@@ -44,7 +44,7 @@ const getPlayerTournaments = async () => {
 
 const getPlayerRating = async () => {
     try {
-        const response = await api.get('/rating', { withCredentials: true, headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get('/rating', { headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }
@@ -56,6 +56,24 @@ const getPlayerRating = async () => {
         } else {
             console.error(error)
             throw new Error("Unknown error getting player's rating")
+        }
+    }
+}
+
+const getTopRatings = async () => {
+    try {
+        const response = await api.get(`/topRatings`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        if (response.status === 200) {
+            return response.data.topPlayers
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            throw new Error("Player not logged in")
+        } else if (error.response && error.response.status === 404) {
+            throw new Error("Player not found")
+        } else {
+            console.error(error)
+            throw new Error("Unknown error getting top ratings")
         }
     }
 }
@@ -78,4 +96,4 @@ const getPlayer = async () => {
     }
 }
 
-export {getPlayerMatches, getPlayerTournaments, getPlayerRating, getPlayer}
+export {getPlayerMatches, getPlayerTournaments, getPlayerRating, getTopRatings, getPlayer}

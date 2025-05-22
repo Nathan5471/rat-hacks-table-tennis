@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerTournaments from "../componenets/PlayerTournaments"
+import Leaderboard from "../componenets/Leaderboard";
 import Sidebar from "../componenets/Sidebar";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
                 <h1 className="text-4xl">Welcome to the Player Dashboard</h1>
                 <div className="mt-4 flex flex-row items-center justify-center">
                     <PlayerTournaments />
+                    <Leaderboard />
                 </div>
             </div>
         </div>
