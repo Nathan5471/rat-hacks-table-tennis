@@ -22,7 +22,7 @@ export default function PlayerTournaments() {
             {tournaments.length > 0 ? (
                 <ul>
                     {tournaments.map((tournament) => (
-                        <li key={tournament.id}>
+                        <li key={tournament._id}>
                             <h3>{tournament.name}</h3>
                             <p>{tournament.date}</p>
                             <p>{tournament.location}</p>

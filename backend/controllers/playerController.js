@@ -103,6 +103,24 @@ export const getPlayerMatches = async (req, res) => {
     }
 }
 
+export const getPlayerRecentMatches = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const player = await Player.findById(playerId)
+        if (!player) {
+            return res.status(404).json({ message: "Player not found"})
+        }
+        const recentMatches = player.matches.slice(-5)
+        if (!recentMatches) {
+            return []
+        }
+        res.status(200).json({ recentMatches })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Error getting recent matches"})
+    }
+}
+
 export const getPlayerRating = async (req, res) => {
     const playerId = req.playerId;
     try {
