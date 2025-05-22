@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { getPlayer } from '../utils/PlayerAPIHandler';
+import { getPlayerSelf } from '../utils/PlayerAPIHandler';
 
 export default function Sidebar() {
     const [playerInfo, setPlayerInfo] = useState({});
@@ -9,7 +9,7 @@ export default function Sidebar() {
     useEffect(() => {
         const fetchPlayerInfo = async () => {
             try {
-                const response = await getPlayer();
+                const response = await getPlayerSelf();
                 setPlayerInfo(response);
             } catch (error) {
                 console.error("Error fetching player info:", error);
@@ -34,10 +34,10 @@ export default function Sidebar() {
                         <Link to="/app/home">Home</Link>
                     </li>
                     <li className="mb-2">
-                        <Link to="/app/profile">Profile</Link>
+                        <Link to={`/app/player/${playerInfo._id}`}>Profile</Link>
                     </li>
                     <li className="mb-2">
-                        <Link to="app/tournaments">Tournaments</Link>
+                        <Link to="/app/tournaments">Tournaments</Link>
                     </li>
                     <li className="mb-2">
                         <Link to="/app/leaderboard">Leaderboard</Link>

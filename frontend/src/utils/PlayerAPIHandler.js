@@ -114,9 +114,9 @@ const getPlayerRatingHistory = async () => {
     }
 }
 
-const getPlayer = async () => {
+const getPlayerSelf = async () => {
     try {
-        const response = await api.get('', { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get('/', { headers: { 'ngrok-skip-browser-warning': 'any' }})
         if (response.status === 200) {
             return response.data
         }
@@ -132,4 +132,22 @@ const getPlayer = async () => {
     }
 }
 
-export {getPlayerMatches, getPlayerRecentMatches, getPlayerTournaments, getPlayerRating, getPlayerRatingHistory, getTopRatings, getPlayer}
+const getPlayer = async (id) => {
+    try {
+        const response = await api.get(`/${id}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        if (response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            throw new Error("Player not logged in")
+        } else if (error.response && error.response.status === 404) {
+            throw new Error("Player not found")
+        } else {
+            console.error(error)
+            throw new Error("Unknown error getting player")
+        }
+    }
+}
+
+export {getPlayerMatches, getPlayerRecentMatches, getPlayerTournaments, getPlayerRating, getPlayerRatingHistory, getTopRatings, getPlayerSelf, getPlayer}

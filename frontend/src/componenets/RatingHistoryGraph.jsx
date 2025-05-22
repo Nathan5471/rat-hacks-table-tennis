@@ -10,16 +10,16 @@ export default function RatingHistoryGraph() {
     ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
     useEffect(() => {
-        const fetchTournaments = async () => {
+        const fetchRatingHistory = async () => {
             try {
                 const response = await getPlayerRatingHistory();
                 setRatingHistory(response.previousRatings);
                 const ratingHistoryData = {
-                    labels: response.previousRatings.map((item) => item.date),
+                    labels: response.ratingHistory.previousRatings.map((item) => item.date),
                     datasets: [
                         {
                             label: 'Rating History',
-                            data: response.previousRatings.map((item) => item.rating),
+                            data: response.ratingHistory.previousRatings.map((item) => item.rating),
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             fill: true,
@@ -29,14 +29,14 @@ export default function RatingHistoryGraph() {
                 };
                 setChartData(ratingHistoryData);
             } catch (error) {
-                console.error("Error fetching tournaments:", error);
+                console.error("Error fetching rating history:", error);
                 setRatingHistory([]);
                 setLoading(true);
             } finally {
                 setLoading(false);
             }
         }
-        fetchTournaments();
+        fetchRatingHistory();
     }, []);
 
     return (

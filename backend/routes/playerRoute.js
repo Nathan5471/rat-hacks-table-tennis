@@ -60,4 +60,12 @@ router.get('/', authenticate, async (req, res) => {
     }
 })
 
+router.get('/:id', authenticate, async (req, res) => {
+    try {
+        getPlayer(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting player'})
+    }
+})
+
 export default router

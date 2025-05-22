@@ -166,7 +166,7 @@ export const getTopRatings = async (req, res) => {
 }
 
 export const getPlayer = async (req, res) => {
-    const playerId = req.playerId;
+    const playerId = req.params.id || req.playerId;
     try {
         const player = await Player.findById(playerId)
         if (!player) {
