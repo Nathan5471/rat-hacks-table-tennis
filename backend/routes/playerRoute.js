@@ -12,7 +12,7 @@ router.get('/tournaments', authenticate, async (req, res) => {
     }
 })
 
-router.get('/:id/tournaments', authenticate, async (req, res) => {
+router.get('/tournaments/:id', authenticate, async (req, res) => {
     try {
         getPlayerTournaments(req, res)
     }
@@ -37,7 +37,7 @@ router.get('/recentMatches', authenticate, async (req, res) => {
     }
 })
 
-router.get('/:id/recentMatches', authenticate, async (req, res) => {
+router.get('/recentMatches/:id', authenticate, async (req, res) => {
     try {
         getPlayerRecentMatches(req, res)
     } catch (error) {
@@ -61,7 +61,7 @@ router.get('/ratingHistory', authenticate, async (req, res) => {
     }
 })
 
-router.get('/:id/ratingHistory', authenticate, async (req, res) => {
+router.get('/ratingHistory/:id', authenticate, async (req, res) => {
     try {
         getPlayerRatingHistory(req, res)
     } catch (error) {

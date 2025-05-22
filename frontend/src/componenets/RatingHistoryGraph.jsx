@@ -1,19 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Filler, Title, TimeScale, Tooltip, Legend } from 'chart.js';
+import 'chartjs-adapter-date-fns';
+import { Line } from 'react-chartjs-2';
 import { getPlayerRatingHistory } from '../utils/PlayerAPIHandler';
 
-export default function RatingHistoryGraph(playerId) {
+export default function RatingHistoryGraph({ playerId }) {
     const [ratingHistory, setRatingHistory] = useState([]);
     const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const chartOptions = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Rating History',
+            },
+        },
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'day',
+                    tooltipFormat: 'MMMM dd, yyyy',
+                    displayFormats: {
+                        day: 'MMM dd',
+                    },
+                },
+                title: {
+                    display: true,
+                    text: 'Date',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Rating',
+                },
+            },
+        },
+    };
 
-    ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+    ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler, Title, TimeScale, Tooltip, Legend);
 
     useEffect(() => {
         const fetchRatingHistory = async () => {
             try {
-                const response = await getPlayerRatingHistory(playerId);
-                setRatingHistory(response.previousRatings);
+                let response;
+                if (playerId === undefined) {
+                    response = await getPlayerRatingHistory();
+                } else {
+                    response = await getPlayerRatingHistory(playerId);
+                }
+                setRatingHistory(response.ratingHistory.previousRatings);
+                console.log("Rating History", response.ratingHistory.previousRatings);
                 const ratingHistoryData = {
                     labels: response.ratingHistory.previousRatings.map((item) => item.date),
                     datasets: [
@@ -46,9 +85,8 @@ export default function RatingHistoryGraph(playerId) {
             </div>
         ) : (
             <div className="bg-[#00245C] text-white p-4 rounded-lg flex flex-col">
-                <h2 className="text-2xl">Rating History</h2>
                 {ratingHistory.length > 0 ? (
-                    <Line data={chartData} />
+                    <Line data={chartData} options={chartOptions}/>
                 ) : (
                     <p>No rating history found.</p>
                 )}

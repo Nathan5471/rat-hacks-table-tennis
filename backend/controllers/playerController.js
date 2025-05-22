@@ -140,7 +140,7 @@ export const getPlayerRating = async (req, res) => {
 export const getPlayerRatingHistory = async (req, res) => {
     const playerId = req.params.id || req.playerId;
     try {
-        const ratingHistory = await RatingHistory.find({ playerId })
+        const ratingHistory = await RatingHistory.findOne({ playerId })
         if (!ratingHistory) {
             return res.status(404).json({ message: "No rating history found"})
         }

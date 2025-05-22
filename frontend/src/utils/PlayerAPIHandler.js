@@ -24,13 +24,13 @@ const getPlayerMatches = async () => {
     }
 }
 
-const getPlayerRecentMatches = async (playerId) => {
+const getPlayerRecentMatches = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
             response = await api.get('/recentMatches', { headers: { 'ngrok-skip-browser-warning': 'any' }});
         } else {
-            response = await api.get(`/${playerId}/recentMatches`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get(`/recentMatches/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
         }
         if (response.status === 200) {
             return response.data
@@ -47,13 +47,13 @@ const getPlayerRecentMatches = async (playerId) => {
     }
 }
 
-const getPlayerTournaments = async (playerId) => {
+const getPlayerTournaments = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
             response = await api.get('/tournaments', { headers: { 'ngrok-skip-browser-warning': 'any' }});
         } else {
-            response = await api.get(`/${playerId}/tournaments`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get(`/tournaments/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
         }
         if (response.status === 200) {
             return response.data
@@ -106,13 +106,13 @@ const getTopRatings = async () => {
     }
 }
 
-const getPlayerRatingHistory = async (playerId) => {
+const getPlayerRatingHistory = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
             response = await api.get('/ratingHistory', { headers: { 'ngrok-skip-browser-warning': 'any' }})
         } else {
-            response = await api.get(`/${playerId}/ratingHistory`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+            response = await api.get(`/ratingHistory/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
         }
         if (response.status === 200) {
             return response.data
