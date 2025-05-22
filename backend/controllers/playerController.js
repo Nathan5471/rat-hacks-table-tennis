@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import generateToken from '../utils/generateToken.js'
 import Player from '../models/player.js'
+import RatingHistory from '../models/ratingHistory.js'
 
 export const registerPlayer = async (req, res) => {
     const { fullName, email, password} = req.body;
@@ -135,6 +136,21 @@ export const getPlayerRating = async (req, res) => {
         res.status(500).json({ message: "Error getting rating"})
     }
 }
+
+export const getPlayerRatingHistory = async (req, res) => {
+    const playerId = req.playerId;
+    try {
+        const ratingHistory = await RatingHistory.find({ playerId })
+        if (!ratingHistory) {
+            return res.status(404).json({ message: "No rating history found"})
+        }
+        res.status(200).json({ ratingHistory })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Error getting rating history"})
+    }
+}
+
 
 export const getTopRatings = async (req, res) => {
     try {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PlayerTournaments from "../componenets/PlayerTournaments"
 import RecentPlayerMatches from "../componenets/RecentPlayerMatches";
+import RatingHistoryGraph from '../componenets/RatingHistoryGraph';
 import Leaderboard from "../componenets/Leaderboard";
 import Sidebar from "../componenets/Sidebar";
 
@@ -13,6 +14,7 @@ export default function Home() {
                 <div className="mt-4 flex flex-row items-center justify-center">
                     <PlayerTournaments />
                     <RecentPlayerMatches />
+                    <RatingHistoryGraph />
                     <Leaderboard />
                 </div>
             </div>

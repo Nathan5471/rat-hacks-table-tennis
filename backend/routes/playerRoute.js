@@ -1,6 +1,6 @@
 import express from 'express'
 import authenticate from '../middleware/authenticate.js'
-import { getPlayerTournaments, getPlayerMatches, getPlayerRecentMatches, getPlayerRating, getTopRatings, getPlayer } from '../controllers/playerController.js'
+import { getPlayerTournaments, getPlayerMatches, getPlayerRecentMatches, getPlayerRating, getPlayerRatingHistory, getTopRatings, getPlayer } from '../controllers/playerController.js'
 
 const router = express.Router()
 
@@ -33,6 +33,14 @@ router.get('/rating', authenticate, async (req, res) => {
         getPlayerRating(req, res)
     } catch (error) {
         res.status(500).json({ message: 'Error getting rating'})
+    }
+})
+
+router.get('/ratingHistory', authenticate, async (req, res) => {
+    try {
+        getPlayerRatingHistory(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting rating history'})
     }
 })
 
