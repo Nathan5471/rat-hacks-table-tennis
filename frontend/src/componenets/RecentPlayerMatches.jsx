@@ -3,6 +3,7 @@ import { getPlayerRecentMatches } from '../utils/PlayerAPIHandler';
 
 export default function RecentPlayerMatches() {
     const [recentMatches, setRecentMatches] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchRecentMatches = async () => {
@@ -11,27 +12,36 @@ export default function RecentPlayerMatches() {
                 setRecentMatches(response);
             } catch (error) {
                 console.error("Error fetching tournaments:", error);
-            } 
+                setRecentMatches([]);
+                setLoading(true);
+            } finally {
+                setLoading(false);
+            }
         }
         fetchRecentMatches();
     }, []);
 
     return (
-        <div className="bg-[#00245C] text-white p-4 rounded-lg flex flex-col">
-            <h2 className="text-2xl">Recent Matches</h2>
-            {recentMatches.length > 0 ? (
-                <ul>
-                    {recentMatches.map((match) => (
-                        <li key={match._id}>
-                            <h3>{match.name}</h3>
-                            <p>{match.date}</p>
-                            <p>{match.location}</p>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No matches found.</p>
-            )}
-        </div>
-    )
+        loading === true ? (
+            <div className="bg-[#00245C] text-white p-4 rounded-lg flex flex-col">
+                <h2 className="text-2xl">Loading...</h2>
+            </div>
+        ) : (
+            <div className="bg-[#00245C] text-white p-4 rounded-lg flex flex-col">
+                <h2 className="text-2xl">Recent Matches</h2>
+                {recentMatches.length > 0 ? (
+                    <ul>
+                        {recentMatches.map((match) => (
+                            <li key={match._id}>
+                                <h3>{match.name}</h3>
+                                <p>{match.date}</p>
+                                <p>{match.location}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No matches found.</p>
+                )}
+            </div>
+    ))
 }
