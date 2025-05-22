@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getPlayerRecentMatches } from '../utils/PlayerAPIHandler';
 
-export default function RecentPlayerMatches() {
+export default function RecentPlayerMatches(playerId) {
     const [recentMatches, setRecentMatches] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchRecentMatches = async () => {
             try {
-                const response = await getPlayerRecentMatches();
+                const response = await getPlayerRecentMatches(playerId);
                 setRecentMatches(response);
             } catch (error) {
                 console.error("Error fetching tournaments:", error);
@@ -19,7 +19,7 @@ export default function RecentPlayerMatches() {
             }
         }
         fetchRecentMatches();
-    }, []);
+    }, [playerId]);
 
     return (
         loading === true ? (

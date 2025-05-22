@@ -12,6 +12,15 @@ router.get('/tournaments', authenticate, async (req, res) => {
     }
 })
 
+router.get('/:id/tournaments', authenticate, async (req, res) => {
+    try {
+        getPlayerTournaments(req, res)
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error getting tournaments' })
+    }
+})
+
 router.get('/matches', authenticate, async (req, res) => {
     try {
         getPlayerMatches(req, res)
@@ -28,6 +37,14 @@ router.get('/recentMatches', authenticate, async (req, res) => {
     }
 })
 
+router.get('/:id/recentMatches', authenticate, async (req, res) => {
+    try {
+        getPlayerRecentMatches(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting recent matches'})
+    }
+})
+
 router.get('/rating', authenticate, async (req, res) => {
     try {
         getPlayerRating(req, res)
@@ -37,6 +54,14 @@ router.get('/rating', authenticate, async (req, res) => {
 })
 
 router.get('/ratingHistory', authenticate, async (req, res) => {
+    try {
+        getPlayerRatingHistory(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting rating history'})
+    }
+})
+
+router.get('/:id/ratingHistory', authenticate, async (req, res) => {
     try {
         getPlayerRatingHistory(req, res)
     } catch (error) {

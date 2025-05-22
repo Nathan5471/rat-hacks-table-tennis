@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 import { getPlayerRatingHistory } from '../utils/PlayerAPIHandler';
 
-export default function RatingHistoryGraph() {
+export default function RatingHistoryGraph(playerId) {
     const [ratingHistory, setRatingHistory] = useState([]);
     const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ export default function RatingHistoryGraph() {
     useEffect(() => {
         const fetchRatingHistory = async () => {
             try {
-                const response = await getPlayerRatingHistory();
+                const response = await getPlayerRatingHistory(playerId);
                 setRatingHistory(response.previousRatings);
                 const ratingHistoryData = {
                     labels: response.ratingHistory.previousRatings.map((item) => item.date),
@@ -37,7 +37,7 @@ export default function RatingHistoryGraph() {
             }
         }
         fetchRatingHistory();
-    }, []);
+    }, [playerId]);
 
     return (
         loading === true ? (

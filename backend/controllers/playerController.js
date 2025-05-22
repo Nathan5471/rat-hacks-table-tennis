@@ -72,7 +72,7 @@ export const loginPlayer = async (req, res) => {
 }
 
 export const getPlayerTournaments = async (req, res) => {
-    const playerId = req.playerId;
+    const playerId = req.params.id || req.playerId;
     try {
         const player = await Player.findById(playerId)
         if (!player) {
@@ -105,7 +105,7 @@ export const getPlayerMatches = async (req, res) => {
 }
 
 export const getPlayerRecentMatches = async (req, res) => {
-    const playerId = req.playerId;
+    const playerId = req.params.id || req.playerId;
     try {
         const player = await Player.findById(playerId)
         if (!player) {
@@ -138,7 +138,7 @@ export const getPlayerRating = async (req, res) => {
 }
 
 export const getPlayerRatingHistory = async (req, res) => {
-    const playerId = req.playerId;
+    const playerId = req.params.id || req.playerId;
     try {
         const ratingHistory = await RatingHistory.find({ playerId })
         if (!ratingHistory) {
@@ -174,7 +174,7 @@ export const getPlayer = async (req, res) => {
         }
         res.status(200).json(player)
     } catch (error) {
-        constole.error(error)
+        console.error(error)
         res.status(500).json({ message: "Error getting player"})
     }
 }
