@@ -15,6 +15,9 @@ export default function RatingHistoryGraph({ playerId }) {
                 display: true,
                 text: 'Rating History',
             },
+            legend: {
+                display: false
+            }
         },
         scales: {
             x: {
