@@ -1,6 +1,9 @@
 import { io } from 'socket.io-client';
 
-const socket = io('https://f87c-24-149-102-194.ngrok-free.app/')
+const socket = io('https://f87c-24-149-102-194.ngrok-free.app/', {
+  extraHeaders: {
+    "ngrok-skip-browser-warning": "true"
+  }});
 
 export const joinMatch = (matchId) => {
     try {
@@ -13,15 +16,23 @@ export const joinMatch = (matchId) => {
 }
 
 export const handleUpdatedScore = (callback) => {
-    socket.on('scoreUpdate', (scores) => {
+    const scoreHandler = (scores) => {
         console.log('Score updated:', scores);
         callback(scores);
-    });
+    }
 
-    socket.on('gameOver', (data) => {
+    const gameOverHandler = (data) => {
         console.log('Game over:', data);
         callback(data);
-    });
+    }
+
+    socket.on('scoreUpdate', scoreHandler);
+    socket.on('gameOver', gameOverHandler);
+
+    return () => {
+        socket.off('scoreUpdate', scoreHandler);
+        socket.off('gameOver', gameOverHandler);
+    }
 }
 
 export const updateScore = (matchId, newScore) => {
