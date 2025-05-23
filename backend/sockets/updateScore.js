@@ -1,10 +1,10 @@
-import findWinner from '../utils/findWinner.js';
+import { findWinner } from '../utils/findWinner.js';
 import Match from '../models/match.js';
 import { endMatch } from '../controllers/matchController.js';
 
 const matachData = {};
 
-module.exports = (io, socket) => {
+export default (io, socket) => {
 
     const joinMatch = (matchId) => {
         if (!matachData[matchId]) {

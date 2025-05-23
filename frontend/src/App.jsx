@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Tournament from './pages/Tournament';
 import Match from './pages/Match';
 import Player from './pages/Player';
+import MatchJudge from './pages/MatchJudge';
+import MatchLiveView from './pages/MatchLiveView';
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                     <Route path="/app/tournament/:id" element={<Tournament />} />
                     <Route path="/app/match/:id" element={<Match />} />
                     <Route path="/app/player/:id" element={<Player />} />
+                    <Route path="/app/match/:id/judge" element={<MatchJudge />} />
+                    <Route path="/app/match/:id/liveView" element={<MatchLiveView />} />
                 </Route>
             </Routes>
         </Router>

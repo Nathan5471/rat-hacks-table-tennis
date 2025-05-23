@@ -1,9 +1,11 @@
 import express from 'express';
 import { Server } from 'socket.io';
+import http from 'http';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import updateScore from './sockets/updateScore.js';
 import authRoute from './routes/authRoute.js';
 import playerRouter from './routes/playerRoute.js'
 import tournamentRoute from './routes/tournamentRoute.js';
@@ -12,12 +14,22 @@ import matchRoute from './routes/matchRoute.js';
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 const PORT = process.env.PORT || 5000;
 const corsOptions = {
     origin: true,
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
+
+io.on('connection', (socket) => {
+    console.log('New player connected');
+    updateScore(io, socket);
+    socket.on('disconnect', () => {
+        console.log('Player disconnected');
+    });
+});
 
 app.use(cors(corsOptions))
 app.use(express.json());
