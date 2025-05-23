@@ -28,7 +28,7 @@ export default function MatchJudge() {
     }, [id]);
 
     const handleScoreUpdate = async (playerScored) => {
-        const newScore = score;
+        const newScore = { ...score };
         if (playerScored === 'player1') {
             newScore.player1 += 1;
         } else if (playerScored === 'player2') {
@@ -50,9 +50,15 @@ export default function MatchJudge() {
                     <h2 className="text-2xl">{match.player1Id.fullName} ({match.player1Id.rating}) vs {match.player2Id.fullName} ({match.player2Id.rating})</h2>
                     <h2 className="text-2xl"><Link to={`/app/match/${id}`}>Exit</Link></h2>
                 </div>
-                <div>
-                    <button onClick={() => handleScoreUpdate('player1')} className="bg-blue-500 text-white p-2 m-2 rounded">Player 1 Score</button>
-                    <button onClick={() => handleScoreUpdate('player2')} className="bg-blue-500 text-white p-2 m-2 rounded">Player 2 Score</button>
+                <div className="grid grid-cols-2 gap-4 p-4 h-[calc(95%)]">
+                    <div className="grid grid-cols-1 gap-4">
+                        <h2 className="text-3xl text-white text-center">{match.player1Id.fullName}</h2>
+                        <button onClick={() => handleScoreUpdate('player1')} className="bg-blue-500 text-white p-2 m-2 rounded">{score.player1}</button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        <h2 className="text-3xl text-white text-center">{match.player2Id.fullName}</h2>
+                        <button onClick={() => handleScoreUpdate('player2')} className="bg-blue-500 text-white p-2 m-2 rounded">{score.player2}</button>
+                    </div>
                 </div>
             </div>
         )

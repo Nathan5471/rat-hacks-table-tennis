@@ -17,6 +17,7 @@ export default function LiveScore({ matchId }) {
             cleanup && cleanup();
         };
     }, [handleUpdatedScore]);
+
     return (
         <div className="bg-[#00245C] text-white p-4 rounded-lg shadow-md flex">
             <h2 className="text-6xl">{score.player1Score} - {score.player2Score}</h2>

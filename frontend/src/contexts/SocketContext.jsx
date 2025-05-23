@@ -63,7 +63,7 @@ export const SocketProvider = ({ children }) => {
     const contextValue = {
         joinMatch,
         handleUpdatedScore,
-        updateScore
+        updateScore,
     }
 
     return <SocketContext.Provider value={contextValue}>

@@ -10,12 +10,13 @@ export default (io, socket) => {
         if (!matachData[matchId]) {
             matachData[matchId] = { player1Score: 0, player2Score: 0 };
         }
+        console.log(`Match data for ${matchId}:`, matachData[matchId]);
         socket.join(matchId);
+        socket.to(matchId).emit('scoreUpdate', matachData[matchId]);
         console.log(`Player joined match ${matchId}`);
     }
 
     const updateScore = ({ matchId, newScore }) => {
-        console.log(`Received score update for match ${matchId}:`, newScore);
         if (newScore.player1 !== undefined) {
             const player1Score = newScore.player1;
             matachData[matchId].player1Score = player1Score;
@@ -28,7 +29,6 @@ export default (io, socket) => {
         const player1Score = matachData[matchId].player1Score;
         const player2Score = matachData[matchId].player2Score;
         const winner = findWinner(player1Score, player2Score);
-        console.log(`Match ${matchId} updated scores: Player 1 - ${player1Score}, Player 2 - ${player2Score}`);
         if (winner) {
             const scores = {
                 player1Score: matachData[matchId].player1Score,
@@ -67,10 +67,18 @@ export default (io, socket) => {
         }
     }
 
+    const getScore = (matchId) => {
+        return matachData[matchId];
+    }
+
     socket.on('joinmatch', (matchId) => {
         joinMatch(matchId);
     });
     socket.on('updateScore', (newScore) => {
         updateScore(newScore);
+    });
+    socket.on('getScore', (matchId) => {
+        const score = getScore(matchId);
+        socket.to(matchId).emit('scoreUpdate', score);
     });
 }
