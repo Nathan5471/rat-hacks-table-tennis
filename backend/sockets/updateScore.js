@@ -24,6 +24,8 @@ export default (io, socket) => {
             matachData[matchId].player2Score = player2Score;
         }
 
+        const player1Score = matachData[matchId].player1Score;
+        const player2Score = matachData[matchId].player2Score;
         const winner = findWinner(player1Score, player2Score);
         if (winner) {
             const scores = {

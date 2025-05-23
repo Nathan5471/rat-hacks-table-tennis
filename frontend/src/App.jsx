@@ -7,11 +7,14 @@ import Home from './pages/Home';
 import Tournament from './pages/Tournament';
 import Match from './pages/Match';
 import Player from './pages/Player';
+import { SocketProvider } from './contexts/SocketContext';
 import MatchJudge from './pages/MatchJudge';
 import MatchLiveView from './pages/MatchLiveView';
+import { Socket } from 'socket.io-client';
 
 function App() {
     return (
+        <SocketProvider>
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
@@ -26,6 +29,7 @@ function App() {
                 </Route>
             </Routes>
         </Router>
+        </SocketProvider>
     )
 }
 

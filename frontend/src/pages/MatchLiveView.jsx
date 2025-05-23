@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getMatch } from '../utils/MatchAPIHandler';
-import { joinMatch } from '../utils/SocketService';
 import LiveScore from '../componenets/liveComponents/LiveScore';
 import VideoStream from '../componenets/liveComponents/VideoStream';
 
@@ -10,8 +9,6 @@ export default function MatchLiveView() {
     const { id } = useParams();
     const [match, setMatch] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    joinMatch(id);
 
     useEffect(() => {
         const fetchMatch = async () => {
@@ -43,7 +40,7 @@ export default function MatchLiveView() {
                     <div className="col-span-2">
                         <VideoStream />
                     </div>
-                    <LiveScore />
+                    <LiveScore matchId={id}/>
                 </div>
             </div>
         )
