@@ -2,7 +2,7 @@ import { findWinner } from '../utils/findWinner.js';
 import Match from '../models/match.js';
 import { endMatch } from '../controllers/matchController.js';
 
-const matachData = {};
+let matachData = {};
 
 export default (io, socket) => {
 
@@ -15,18 +15,20 @@ export default (io, socket) => {
     }
 
     const updateScore = ({ matchId, newScore }) => {
-        if (newScore.player1Score !== undefined) {
-            const player1Score = newScore.player1Score;
+        console.log(`Received score update for match ${matchId}:`, newScore);
+        if (newScore.player1 !== undefined) {
+            const player1Score = newScore.player1;
             matachData[matchId].player1Score = player1Score;
         }
-        if (newScore.player2Score !== undefined) {
-            const player2Score = newScore.player2Score;
+        if (newScore.player2 !== undefined) {
+            const player2Score = newScore.player2;
             matachData[matchId].player2Score = player2Score;
         }
 
         const player1Score = matachData[matchId].player1Score;
         const player2Score = matachData[matchId].player2Score;
         const winner = findWinner(player1Score, player2Score);
+        console.log(`Match ${matchId} updated scores: Player 1 - ${player1Score}, Player 2 - ${player2Score}`);
         if (winner) {
             const scores = {
                 player1Score: matachData[matchId].player1Score,

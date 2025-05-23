@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://f87c-24-149-102-194.ngrok-free.app/api/match'
+const baseUrl = 'https://ef42-184-170-66-25.ngrok-free.app/api/match'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,

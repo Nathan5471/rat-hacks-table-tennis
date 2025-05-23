@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 
 const SocketContext = createContext();
@@ -6,14 +6,23 @@ const SocketContext = createContext();
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
-    const socket = io('https://f87c-24-149-102-194.ngrok-free.app/', {
+    const socketRef = useRef(null);
+    
+    useEffect(() => {
+        socketRef.current = io('https://ef42-184-170-66-25.ngrok-free.app/', {
         extraHeaders: {
             "ngrok-skip-browser-warning": "true"
-    }});
+        }});
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+            }
+        }
+    }, []);
 
     const joinMatch = (matchId) => {
         try {
-            socket.emit('joinmatch', matchId);
+            socketRef.current.emit('joinmatch', matchId);
             console.log(`Player joined match ${matchId}`);
         } catch (error) {
             console.error(`Error joining match ${matchId}:`, error);
@@ -32,37 +41,29 @@ export const SocketProvider = ({ children }) => {
             callback(data);
         }
     
-        socket.on('scoreUpdate', scoreHandler);
-        socket.on('gameOver', gameOverHandler);
+        socketRef.current.on('scoreUpdate', scoreHandler);
+        socketRef.current.on('gameOver', gameOverHandler);
     
         return () => {
-            socket.off('scoreUpdate', scoreHandler);
-            socket.off('gameOver', gameOverHandler);
+            socketRef.current.off('scoreUpdate', scoreHandler);
+            socketRef.current.off('gameOver', gameOverHandler);
         }
     }
     
     const updateScore = (matchId, newScore) => {
         try {
-            socket.emit('updateScore', { matchId, newScore });
+            socketRef.current.emit('updateScore', { matchId, newScore });
             console.log(`Score updated for match ${matchId}:`, newScore);
         } catch (error) {
             console.error(`Error updating score for match ${matchId}:`, error);
             throw new Error(`Error updating score for match ${matchId}`);
         }
     }
-    
-
-    useEffect(() => {
-        return () => {
-            socket.disconnect();
-        }
-    })
 
     const contextValue = {
         joinMatch,
         handleUpdatedScore,
-        updateScore,
-        socket
+        updateScore
     }
 
     return <SocketContext.Provider value={contextValue}>

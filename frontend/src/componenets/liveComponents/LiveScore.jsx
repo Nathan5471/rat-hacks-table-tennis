@@ -9,12 +9,10 @@ export default function LiveScore({ matchId }) {
 
     useEffect(() => {
         const cleanup = handleUpdatedScore((data) => {
-            if (data) {
-                setScore(data);
-            } else {
-                console.log("Game over:", data);
+            setScore(data)
+            console.log("Game over:", data);
             }
-        });
+        );
         return () => {
             cleanup && cleanup();
         };
