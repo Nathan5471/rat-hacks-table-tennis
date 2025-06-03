@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://ef42-184-170-66-25.ngrok-free.app/api/tournament'
+const baseUrl = 'https://0wc0ip-ip-184-170-66-25.tunnelmole.net/api/tournament'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
@@ -74,7 +74,7 @@ const leaveTournament = async (tournamentId) => {
 
 const getTournament = async (tournamentId) => {
     try {
-        const response = await api.get(`/${tournamentId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get(`/${tournamentId}`)
         if (response.status === 200) {
             return response.data
         }

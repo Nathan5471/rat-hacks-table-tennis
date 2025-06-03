@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://ef42-184-170-66-25.ngrok-free.app/api/player'
+const baseUrl = 'https://0wc0ip-ip-184-170-66-25.tunnelmole.net/api/player'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
@@ -8,7 +8,7 @@ const api = axios.create({
 
 const getPlayerMatches = async () => {
     try {
-        const response = await api.get('/matches', { headers: { 'ngrok-skip-browser-warning': 'any' }});
+        const response = await api.get('/matches');
         if (response.status === 200) {
             return response.data
         }
@@ -28,9 +28,9 @@ const getPlayerRecentMatches = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
-            response = await api.get('/recentMatches', { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get('/recentMatches');
         } else {
-            response = await api.get(`/recentMatches/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get(`/recentMatches/${playerId}`);
         }
         if (response.status === 200) {
             return response.data
@@ -51,9 +51,9 @@ const getPlayerTournaments = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
-            response = await api.get('/tournaments', { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get('/tournaments');
         } else {
-            response = await api.get(`/tournaments/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }});
+            response = await api.get(`/tournaments/${playerId}`);
         }
         if (response.status === 200) {
             return response.data
@@ -72,7 +72,7 @@ const getPlayerTournaments = async (playerId = undefined) => {
 
 const getPlayerRating = async () => {
     try {
-        const response = await api.get('/rating', { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get('/rating')
         if (response.status === 200) {
             return response.data
         }
@@ -90,7 +90,7 @@ const getPlayerRating = async () => {
 
 const getTopRatings = async () => {
     try {
-        const response = await api.get(`/topRatings`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get(`/topRatings`)
         if (response.status === 200) {
             return response.data.topPlayers
         }
@@ -110,9 +110,9 @@ const getPlayerRatingHistory = async (playerId = undefined) => {
     try {
         let response;
         if (playerId === undefined) {
-            response = await api.get('/ratingHistory', { headers: { 'ngrok-skip-browser-warning': 'any' }})
+            response = await api.get('/ratingHistory')
         } else {
-            response = await api.get(`/ratingHistory/${playerId}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+            response = await api.get(`/ratingHistory/${playerId}`)
         }
         if (response.status === 200) {
             return response.data
@@ -131,7 +131,7 @@ const getPlayerRatingHistory = async (playerId = undefined) => {
 
 const getPlayerSelf = async () => {
     try {
-        const response = await api.get('/', { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get('/')
         if (response.status === 200) {
             return response.data
         }
@@ -149,7 +149,7 @@ const getPlayerSelf = async () => {
 
 const getPlayer = async (id) => {
     try {
-        const response = await api.get(`/${id}`, { headers: { 'ngrok-skip-browser-warning': 'any' }})
+        const response = await api.get(`/${id}`)
         if (response.status === 200) {
             return response.data
         }

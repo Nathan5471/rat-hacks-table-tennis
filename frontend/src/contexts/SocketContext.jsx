@@ -9,10 +9,7 @@ export const SocketProvider = ({ children }) => {
     const socketRef = useRef(null);
     
     useEffect(() => {
-        socketRef.current = io('https://ef42-184-170-66-25.ngrok-free.app/', {
-        extraHeaders: {
-            "ngrok-skip-browser-warning": "true"
-        }});
+        socketRef.current = io('https://0wc0ip-ip-184-170-66-25.tunnelmole.net/');
         return () => {
             if (socketRef.current) {
                 socketRef.current.disconnect();

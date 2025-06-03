@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AuthenticatedRoute from './utils/AuthenticatedRoute';
 import Home from './pages/Home';
+import Leaderboard from './pages/Leaderboard';
 import Tournament from './pages/Tournament';
 import Match from './pages/Match';
 import Player from './pages/Player';
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route element={<AuthenticatedRoute />}>
                     <Route path="/app/home" element={<Home />} />
+                    <Route path="/app/leaderboard" element={<Leaderboard />} />
                     <Route path="/app/tournament/:id" element={<Tournament />} />
                     <Route path="/app/match/:id" element={<Match />} />
                     <Route path="/app/player/:id" element={<Player />} />

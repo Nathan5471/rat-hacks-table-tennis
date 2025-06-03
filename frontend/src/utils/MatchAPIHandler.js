@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://ef42-184-170-66-25.ngrok-free.app/api/match'
+const baseUrl = 'https://0wc0ip-ip-184-170-66-25.tunnelmole.net/api/match'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
@@ -8,7 +8,7 @@ const api = axios.create({
 
 const getMatch = async (matchId) => {
     try {
-        const response = await api.get(`/${matchId}`, {headers: { 'ngrok-skip-browser-warning': 'any' }});
+        const response = await api.get(`/${matchId}`);
         if (response.status === 200) {
             return response.data
         }
