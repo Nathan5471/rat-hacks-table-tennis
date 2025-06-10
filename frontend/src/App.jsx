@@ -10,12 +10,14 @@ import Tournament from './pages/Tournament';
 import Match from './pages/Match';
 import Player from './pages/Player';
 import { SocketProvider } from './contexts/SocketContext';
+import { OverlayProvider } from './contexts/OverlayContext';
 import MatchJudge from './pages/MatchJudge';
 import MatchLiveView from './pages/MatchLiveView';
 
 function App() {
     return (
         <SocketProvider>
+        <OverlayProvider>
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
@@ -33,6 +35,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/app/home" replace />} />
             </Routes>
         </Router>
+        </OverlayProvider>
         </SocketProvider>
     )
 }

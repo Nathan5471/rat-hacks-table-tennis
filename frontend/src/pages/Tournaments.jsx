@@ -3,6 +3,7 @@ import { getTournaments } from '../utils/TournamentAPIHandler';
 import { getPlayerSelf } from '../utils/PlayerAPIHandler';
 import TournamentCard from '../componenets/TournamentCard';
 import Sidebar from '../componenets/Sidebar';
+import { Overlay } from '../componenets/Overlay';
 
 export default function Tournaments() {
     const [tournaments, setTournaments] = useState([]);
@@ -32,9 +33,10 @@ export default function Tournaments() {
     ) 
 
     return (
+        <>
         <div className="bg-[#011534] flex flex-row min-w-screen min-h-screen">
             <Sidebar />
-            <div className="bg-[#011534] text-white p-4 flex flex-col min-w-[calc(85%)] min-h-screen">
+            <div className="text-white p-4 flex flex-col min-w-[calc(85%)] min-h-screen">
                 <h2 className="text-2xl mb-4">Tournaments</h2>
                 {tournaments.length === 0 ? (
                     <p className="text-lg">No tournaments available at the moment.</p>
@@ -51,5 +53,7 @@ export default function Tournaments() {
                 )}
             </div>
         </div>
+        <Overlay />
+        </>
     )
 }
