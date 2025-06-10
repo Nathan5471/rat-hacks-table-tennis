@@ -13,10 +13,11 @@ export default function Tournaments() {
     const [playerId, setPlayerId] = useState(null);
     const [canCreateTournament, setCanCreateTournament] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [refreshTournaments, setRefreshTournaments] = useState(false);
 
     const handleCreateTournament = (e) => {
         e.preventDefault();
-        openOverlay(<CreateTournament />);
+        openOverlay(<CreateTournament setRefreshTournaments={setRefreshTournaments}/>);
     }
 
     useEffect(() => {
@@ -33,8 +34,9 @@ export default function Tournaments() {
                 setLoading(false);
             }
         }
+        setLoading(true);
         fetchTournaments();
-    }, [])
+    }, [refreshTournaments])
 
     if (loading === true) return (
         <div className="bg-[#011534] text-white p-4 flex flex-col min-w-screen min-h-screen">
@@ -47,8 +49,8 @@ export default function Tournaments() {
         <div className="bg-[#011534] flex flex-row min-w-screen min-h-screen">
             <Sidebar />
             <div className="text-white p-4 flex flex-col min-w-[calc(85%)] min-h-screen">
-                <div className="flex flex-row justify-between">
-                    <h1 className="text-2xl mb-4">Tournaments</h1>
+                <div className="flex flex-row justify-between mb-4">
+                    <h1 className="text-2xl">Tournaments</h1>
                     {canCreateTournament && (
                         <button 
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -66,7 +68,8 @@ export default function Tournaments() {
                         <TournamentCard 
                             key={tournament._id} 
                             tournament={tournament} 
-                            playerId={playerId} 
+                            playerId={playerId}
+                            setRefreshTournaments={setRefreshTournaments}
                         />
                     ))}
                     </>

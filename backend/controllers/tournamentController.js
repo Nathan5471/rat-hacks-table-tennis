@@ -42,7 +42,7 @@ export const getAllTournaments = async (req, res) => {
 
 export const addPlayerToTournament = async (req, res) => {
     const { tournamentId } = req.body;
-    const { playerId } = req.playerId;
+    const playerId = req.playerId;
     try {
         const tournament = await Tournament.findById(tournamentId);
         if (!tournament) {
@@ -71,7 +71,7 @@ export const addPlayerToTournament = async (req, res) => {
 
 export const removePlayerFromTournament = async (req, res) => {
     const { tournamentId } = req.body;
-    const { playerId } = req.playerId;
+    const playerId = req.playerId;
     try {
         const tournament = await Tournament.findById(tournamentId);
         if (!tournament) {

@@ -30,7 +30,7 @@ const createTournament = async (tournamentInfo) => {
 
 const joinTournament = async (tournamentId) => {
     try {
-        const response = await api.post('/addPlayer', tournamentId)
+        const response = await api.post('/addPlayer', {tournamentId: tournamentId})
         if (response.status === 200) {
             return response.data
         }
@@ -52,7 +52,7 @@ const joinTournament = async (tournamentId) => {
 
 const leaveTournament = async (tournamentId) => {
     try {
-        const response = await api.post('/removePlayer', tournamentId)
+        const response = await api.post('/removePlayer', {tournamentId: tournamentId})
         if (response.status === 200) {
             return response.data
         }

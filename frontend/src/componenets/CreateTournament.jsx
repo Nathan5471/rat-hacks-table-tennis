@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useOverlay } from '../contexts/OverlayContext';
 import { createTournament } from '../utils/TournamentAPIHandler';
 
-export default function CreateTournament() {
+export default function CreateTournament({setRefreshTournaments}) {
     const { closeOverlay } = useOverlay();
     const [tournamentName, setTournamentName] = useState('');
     const [tournamentLocation, setTournamentLocation] = useState('');
@@ -18,7 +18,7 @@ export default function CreateTournament() {
             return;
         }
         try {
-            const response = await createTournament({
+            await createTournament({
                 name: tournamentName,
                 location: tournamentLocation,
                 startDate: tournamentDate,
@@ -28,6 +28,7 @@ export default function CreateTournament() {
             setTournamentLocation('');
             setTournamentDate('');
             setTimeBetweenMatches('');
+            setRefreshTournaments(prev => !prev);
             closeOverlay();
         } catch (error) {
             setError(error || 'An error occurred while creating the tournament');
