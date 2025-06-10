@@ -1,6 +1,6 @@
 import express from 'express'
 import authenticate from '../middleware/authenticate.js'
-import { createTournament, addPlayerToTournament, removePlayerFromTournament, getTournament } from '../controllers/tournamentController.js'
+import { createTournament, getAllTournaments, addPlayerToTournament, removePlayerFromTournament, getTournament } from '../controllers/tournamentController.js'
 
 const router = express.Router()
 
@@ -13,6 +13,14 @@ router.post('/create', authenticate, async (req, res) => {
         createTournament(req, res)
     } catch (error) {
         res.status(500).json({ message: 'Error creating tournament'})
+    }
+})
+
+router.get('/all', authenticate, async (req, res) => {
+    try {
+        getAllTournaments(req, res)
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching tournaments'})
     }
 })
 

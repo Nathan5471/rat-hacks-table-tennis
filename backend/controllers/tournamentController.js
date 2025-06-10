@@ -29,6 +29,17 @@ export const createTournament = async (req, res) => {
     }
 }
 
+export const getAllTournaments = async (req, res) => {
+    try {
+        const tournaments = await Tournament.find()
+        const stortedTournaments = tournaments.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        res.status(200).json({ tournaments: stortedTournaments });
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 export const addPlayerToTournament = async (req, res) => {
     const { tournamentId } = req.body;
     const { playerId } = req.playerId;

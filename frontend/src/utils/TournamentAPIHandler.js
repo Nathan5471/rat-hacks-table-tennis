@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://0wc0ip-ip-184-170-66-25.tunnelmole.net/api/tournament'
+const baseUrl = 'https://hqe8ka-ip-24-149-102-194.tunnelmole.net/api/tournament'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,
@@ -90,4 +90,22 @@ const getTournament = async (tournamentId) => {
     }
 }
 
-export {createTournament, joinTournament, leaveTournament, getTournament}
+const getTournaments = async () => {
+    try {
+        const response = await api.get('/all')
+        if (response.status === 200) {
+            return response.data
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            throw new Error("Player is not logged in")
+        } else if (error.response && error.response.status === 404) {
+            throw new Error("Player not found")
+        } else {
+            console.error(error)
+            throw new Error("Unkown error getting tournaments")
+        }
+    }
+}
+
+export {createTournament, joinTournament, leaveTournament, getTournament, getTournaments}
