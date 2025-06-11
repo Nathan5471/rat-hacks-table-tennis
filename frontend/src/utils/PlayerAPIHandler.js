@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://hqe8ka-ip-24-149-102-194.tunnelmole.net/api/player'
+const baseUrl = 'https://kkkaic-ip-24-149-102-194.tunnelmole.net/api/player'
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,

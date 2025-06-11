@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
     const socketRef = useRef(null);
     
     useEffect(() => {
-        socketRef.current = io('https://hqe8ka-ip-24-149-102-194.tunnelmole.net/');
+        socketRef.current = io('https://kkkaic-ip-24-149-102-194.tunnelmole.net/');
         return () => {
             if (socketRef.current) {
                 socketRef.current.disconnect();
