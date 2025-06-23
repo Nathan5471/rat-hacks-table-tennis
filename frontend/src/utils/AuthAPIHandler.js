@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL;
+const baseUrl = import.meta.env.VITE_BACKEND_URL + "/api/auth/";
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -9,7 +9,7 @@ const api = axios.create({
 
 const register = async (userInfo) => {
   try {
-    const response = await api.post("/api/auth/register", userInfo);
+    const response = await api.post("/register", userInfo);
     if (response.status === 201) {
       return response.data;
     }
@@ -27,7 +27,7 @@ const register = async (userInfo) => {
 
 const login = async (loginInfo) => {
   try {
-    const response = await api.post("/api/auth", loginInfo);
+    const response = await api.post("/", loginInfo);
     if (response.status === 200) {
       return response.data;
     }
@@ -45,7 +45,7 @@ const login = async (loginInfo) => {
 
 const isLoggedIn = async () => {
   try {
-    const response = await api.get("/api/auth/isLoggedIn");
+    const response = await api.get("/isLoggedIn");
     if (response.status === 200) {
       return true;
     }
@@ -56,6 +56,15 @@ const isLoggedIn = async () => {
       console.error(error);
       throw new Error("An unkown error occured while checking login status");
     }
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await api.get("/logout");
+  } catch (error) {
+    console.error(error);
+    throw new Error("An unkown error occured while checking login status");
   }
 };
 

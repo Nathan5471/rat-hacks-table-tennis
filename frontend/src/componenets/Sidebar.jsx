@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getPlayerSelf } from "../utils/PlayerAPIHandler";
+import { logout } from "../utils/AuthAPIHandler";
 
 export default function Sidebar() {
   const [playerInfo, setPlayerInfo] = useState({});
@@ -21,16 +22,8 @@ export default function Sidebar() {
     fetchPlayerInfo();
   }, []);
 
-  async function logout() {
-    let response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-    let json = await response.json();
-    console.log(json);
+  async function handleLogout() {
+    await logout();
     navigate("/");
   }
 
@@ -59,7 +52,7 @@ export default function Sidebar() {
       <div className=""></div>
       <ul className="mt-1 text-2xl">
         <li className="mb-2">
-          <button onClick={() => logout()}>Logout</button>
+          <button onClick={() => handleLogout()}>Logout</button>
         </li>
       </ul>
     </div>
