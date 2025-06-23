@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://kkkaic-ip-24-149-102-194.tunnelmole.net/api/match'
+const baseUrl = import.meta.env.VITE_BACKEND_URL
 const api = axios.create({
     baseURL: baseUrl,
     withCredentials: true,

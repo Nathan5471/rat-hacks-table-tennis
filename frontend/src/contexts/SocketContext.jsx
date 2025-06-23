@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
     const socketRef = useRef(null);
     
     useEffect(() => {
-        socketRef.current = io('https://kkkaic-ip-24-149-102-194.tunnelmole.net/');
+        socketRef.current = io(import.meta.env.VITE_BACKEND_URL);
         return () => {
             if (socketRef.current) {
                 socketRef.current.disconnect();

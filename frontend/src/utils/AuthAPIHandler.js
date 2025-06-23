@@ -1,62 +1,62 @@
-import axios from 'axios'
+import axios from "axios";
 
-const baseUrl = 'https://kkkaic-ip-24-149-102-194.tunnelmole.net/api/auth';
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 const api = axios.create({
-    baseURL: baseUrl,
-    withCredentials: true,
-})
+  baseURL: baseUrl,
+  withCredentials: true,
+});
 
 const register = async (userInfo) => {
-    try {
-        const response = await api.post('/register', userInfo)
-        if (response.status === 201) {
-            return response.data
-        }
-    } catch (error) {
-        if (error.response && error.response.status === 400) {
-            throw new Error("All fields are required")
-        } else if (error.response && error.response.status === 401) {
-            throw new Error("Email already registered")
-        } else {
-            console.error(error)
-            throw new Error("An unkown error occured during registering")
-        }
+  try {
+    const response = await api.post("/api/auth/register", userInfo);
+    if (response.status === 201) {
+      return response.data;
     }
-}
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      throw new Error("All fields are required");
+    } else if (error.response && error.response.status === 401) {
+      throw new Error("Email already registered");
+    } else {
+      console.error(error);
+      throw new Error("An unkown error occured during registering");
+    }
+  }
+};
 
 const login = async (loginInfo) => {
-    try {
-        const response = await api.post('/', loginInfo)
-        if (response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        if (error.response && error.response.status === 400) {
-            throw new Error("All fields are required")
-        } else if (error.response && error.response.status === 401) {
-            throw new Error("Invalid email or password")
-        } else {
-            console.error(error)
-            throw new Error("An unkown error occured during login")
-        }
+  try {
+    const response = await api.post("/api/auth", loginInfo);
+    if (response.status === 200) {
+      return response.data;
     }
-}
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      throw new Error("All fields are required");
+    } else if (error.response && error.response.status === 401) {
+      throw new Error("Invalid email or password");
+    } else {
+      console.error(error);
+      throw new Error("An unkown error occured during login");
+    }
+  }
+};
 
 const isLoggedIn = async () => {
-    try {
-        const response = await api.get('/isLoggedIn')
-        if (response.status === 200) {
-            return true
-        }
-    } catch (error) {
-        if (error.response && error.response.status === 401) {
-            return false
-        } else {
-            console.error(error)
-            throw new Error("An unkown error occured while checking login status")
-        }
+  try {
+    const response = await api.get("/api/auth/isLoggedIn");
+    if (response.status === 200) {
+      return true;
     }
-}
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return false;
+    } else {
+      console.error(error);
+      throw new Error("An unkown error occured while checking login status");
+    }
+  }
+};
 
-export {register, login, isLoggedIn}
+export { register, login, isLoggedIn };
