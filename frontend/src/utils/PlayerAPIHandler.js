@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL;
+const baseUrl = import.meta.env.VITE_BACKEND_URL + "/api/player/";
 const api = axios.create({
   baseURL: baseUrl,
   withCredentials: true,
@@ -72,7 +72,7 @@ const getPlayerTournaments = async (playerId = undefined) => {
 
 const getPlayerRating = async () => {
   try {
-    const response = await api.get("/api/player/rating");
+    const response = await api.get("/rating");
     if (response.status === 200) {
       return response.data;
     }
@@ -110,9 +110,9 @@ const getPlayerRatingHistory = async (playerId = undefined) => {
   try {
     let response;
     if (playerId === undefined) {
-      response = await api.get("/api/player/ratingHistory");
+      response = await api.get("/ratingHistory");
     } else {
-      response = await api.get(`/api/player/ratingHistory/${playerId}`);
+      response = await api.get(`/ratingHistory/${playerId}`);
     }
     if (response.status === 200) {
       return response.data;
@@ -131,7 +131,7 @@ const getPlayerRatingHistory = async (playerId = undefined) => {
 
 const getPlayerSelf = async () => {
   try {
-    const response = await api.get("/api/player");
+    const response = await api.get("/");
     if (response.status === 200) {
       return response.data;
     }

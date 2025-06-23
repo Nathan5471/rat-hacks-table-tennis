@@ -61,7 +61,7 @@ const isLoggedIn = async () => {
 
 export const logout = async () => {
   try {
-    const response = await api.get("/logout");
+    await api.get("/logout");
   } catch (error) {
     console.error(error);
     throw new Error("An unkown error occured while checking login status");
