@@ -1,0 +1,30 @@
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  height: min-content;
+}
+
+.headerLinks {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  gap: 1rem;
+  margin: 0;
+}
+
+.headerLink {
+  text-decoration: none;
+  margin: 0;
+}
+
+.logoLink {
+  text-decoration: none;
+  margin: 0;
+}
+
+.logoLink h2 {
+  margin: 0;
+}
