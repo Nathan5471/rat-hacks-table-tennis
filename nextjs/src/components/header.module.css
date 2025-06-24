@@ -5,26 +5,48 @@
   width: 100%;
   box-sizing: border-box;
   height: min-content;
+  background-color: #283618;
+  border-top: #606c38 solid 20px;
 }
 
 .headerLinks {
   display: flex;
   flex-direction: row;
   width: fit-content;
-  gap: 1rem;
+  gap: 0.5rem;
   margin: 0;
+  margin-right: 10px;
 }
 
 .headerLink {
   text-decoration: none;
+  margin: 10px;
+}
+
+.headerLink button {
+  text-decoration: none;
   margin: 0;
+  padding: 1rem;
+  border: none;
+  background-color: #606c38;
+  border-radius: 10px;
+  color: white;
+  font-size: larger;
 }
 
 .logoLink {
   text-decoration: none;
-  margin: 0;
+  margin: 10px;
+  margin-left: 80px;
 }
 
-.logoLink h2 {
+.logoLink button {
+  text-decoration: none;
   margin: 0;
+  padding: 1rem;
+  border: none;
+  background-color: #606c38;
+  border-radius: 10px;
+  color: white;
+  font-size: larger;
 }

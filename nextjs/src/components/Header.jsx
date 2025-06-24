@@ -5,7 +5,7 @@ export default async function Header() {
   return (
     <div className={styles.header}>
       <Link href="/" className={styles.logoLink}>
-        <h2>Rat Hacks Table Tennis</h2>
+        <button>Home</button>
       </Link>
       <div></div>
       <div className={styles.headerLinks}>
