@@ -1,0 +1,32 @@
+{
+  "name": "nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "migrate": "npx drizzle-kit generate && npx wrangler d1 migrations apply table-tennis-db",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+    "create-admin": "node scripts/createAdminWrapper.js"
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "^1.3.1",
+    "drizzle-kit": "^0.31.2",
+    "drizzle-orm": "^0.44.2",
+    "jose": "^6.0.11",
+    "next": "15.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.4",
+    "wrangler": "^4.21.0"
+  }
+}
