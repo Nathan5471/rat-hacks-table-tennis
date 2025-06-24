@@ -32,6 +32,14 @@
   border-radius: 10px;
   color: white;
   font-size: larger;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0) translateX(0);
+}
+
+.headerLink button:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .logoLink {
@@ -49,4 +57,12 @@
   border-radius: 10px;
   color: white;
   font-size: larger;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0) translateX(0);
+}
+
+.logoLink button:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }

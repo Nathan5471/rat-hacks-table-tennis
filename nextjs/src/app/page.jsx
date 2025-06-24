@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import styles from "./home.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -13,7 +14,15 @@ export default function Home() {
           </div>
           <h1>Table Tennis</h1>
           <h2>
-            Click <button>Login</button> or <button>Signup</button> to Start!
+            Click{" "}
+            <Link href="/login">
+              <button>Login</button>
+            </Link>{" "}
+            or{" "}
+            <Link href="/signup">
+              <button>Signup</button>
+            </Link>{" "}
+            to Start!
           </h2>
         </div>
         {/* <div className={styles.right}>

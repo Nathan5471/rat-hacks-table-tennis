@@ -44,6 +44,14 @@
   border-radius: 10px;
   color: #fefae0;
   font-size: 0.7em;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0) translateX(0);
+}
+
+.left h2 button:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .right {
@@ -63,13 +71,18 @@
   align-items: center;
   border-radius: 10px;
   box-sizing: border-box;
+  transform: translateY(0) translateX(0) rotate(-5deg);
+}
+
+.right div:hover {
+  transform: translateY(-6px) translateX(-6px) rotate(-5deg);
 }
 
 .right div h1 {
   font-size: 3em;
 }
+
 .imageContainer {
-  transform: rotate(-5deg);
   filter: drop-shadow(8px 8px 16px rgba(0, 0, 0, 0.3));
   transition: transform 0.3s ease;
 }
