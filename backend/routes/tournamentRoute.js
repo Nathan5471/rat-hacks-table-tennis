@@ -7,6 +7,7 @@ import {
   removePlayerFromTournament,
   getTournament,
   deleteTournament,
+  startTournament,
 } from "../controllers/tournamentController.js";
 
 const router = express.Router();
@@ -77,6 +78,20 @@ router.get("/delete/:id", authenticate, async (req, res) => {
     deleteTournament(req, res, id);
   } catch (err) {
     console.log(err);
+  }
+});
+
+router.get("/start/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    if (!id) {
+      return res.status(400).json({ message: "Tournament ID is required" });
+    }
+    startTournament(req, res);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error starting tournament" });
   }
 });
 

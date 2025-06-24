@@ -10,6 +10,7 @@ export default function TournamentCard({
   tournament,
   playerId,
   setRefreshTournaments,
+  canDelete,
 }) {
   const { _id, name, location, startDate, playerIds, status } = tournament;
   const isPlayerRegistered = playerIds.includes(playerId);
@@ -41,11 +42,10 @@ export default function TournamentCard({
         </p>
       </div>
       <div className="flex flex-row ml-auto">
-        <Link
-          to={`/app/tournament/${_id}`}
-          className="bg-blue-500 hover:bg-blue-700 text-white text-center justify-center items-center font-bold py-2 px-4 rounded mr-2"
-        >
-          View Details
+        <Link to={`/app/tournament/${_id}`} className="h-full flex mx-4">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            View Details
+          </button>
         </Link>
         {status === "upcoming" && (
           <>
@@ -64,12 +64,14 @@ export default function TournamentCard({
                 Join Tournament
               </button>
             )}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleDeleteTournament}
-            >
-              Delete
-            </button>
+            {canDelete && (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleDeleteTournament}
+              >
+                Delete
+              </button>
+            )}
           </>
         )}
       </div>

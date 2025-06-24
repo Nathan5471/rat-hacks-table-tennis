@@ -139,6 +139,17 @@ const getTournaments = async () => {
   }
 };
 
+export const startTournament = async (id) => {
+  try {
+    const response = await api.get("/start/" + id);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   createTournament,
   joinTournament,

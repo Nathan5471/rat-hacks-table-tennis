@@ -116,42 +116,61 @@ export const removePlayerFromTournament = async (req, res) => {
   }
 };
 
-export const startTournament = async (tournamentId) => {
+export const startTournament = async (req, res) => {
+  const { id: tournamentId } = req.params;
   try {
     const tournament = await Tournament.findById(tournamentId);
     if (!tournament) {
-      throw new Error("Tournament not found");
+      return res.status(404).json({ message: "Tournament not found" });
     }
     if (tournament.status !== "upcoming") {
-      throw new Error("Tournament already started or completed");
+      return res
+        .status(400)
+        .json({ message: "Tournament already started or completed" });
     }
     tournament.status = "ongoing";
 
     const players = await Player.find({ _id: { $in: tournament.playerIds } });
     if (players.length < 2) {
-      throw new Error("Not enough players to start the tournament");
+      return res
+        .status(400)
+        .json({ message: "Not enough players to start the tournament" });
     }
 
     let bracket = generateBracket(players);
+
+    // Create matches from the bracket data
     const matches = await Promise.all(
-      bracket.map(async (match) => {
+      bracket.matchesData.map(async (match) => {
         const newMatchId = await createMatch(
           tournamentId,
-          match.players,
+          [match.player1._id, match.player2._id],
           tournament.location
         );
         return newMatchId;
       })
     );
-    bracket.matches = matches;
+
+    // Update the bracket with the actual match ObjectIds
+    tournament.matches = matches;
+    bracket[0].matches = matches;
+    // Remove the temporary matchesData
+    delete bracket.matchesData;
+
     tournament.bracket = bracket;
     await tournament.save();
-    await startMatch(bracket.matches[0]);
+
+    // Start the first match
+    if (matches.length > 0) {
+      await startMatch(matches[0]);
+    }
+
     res
       .status(200)
       .json({ message: "Tournament started successfully", tournament });
   } catch (error) {
     console.error("Error starting tournament:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -170,8 +189,9 @@ export const tournamentNextMatch = async (
     }
     const bracket = tournament.bracket;
     const currentRoundData = bracket.find(
-      (round) => round.roundNumber === currentRound
+      (round) => round.roundNumber == currentRound
     );
+
     const lastMatchIndex = currentRoundData.matches.findIndex(
       (match) => match._id.toString() === lastMatchId
     );
@@ -223,7 +243,7 @@ export const tournamentNextRound = async (tournamentId, currentRound) => {
     }
     if (
       currentRoundData.matches.length <= 1 &&
-      currentRoundData.byes.length === 0
+      (currentRoundData.byes || []).length === 0
     ) {
       tournament.status = "completed";
       await tournament.save();
@@ -234,7 +254,7 @@ export const tournamentNextRound = async (tournamentId, currentRound) => {
       nextRound.matches.map(async (match) => {
         const newMatchId = await createMatch(
           tournamentId,
-          match.players,
+          [match.player1, match.player2],
           tournament.location
         );
         return newMatchId;
@@ -285,7 +305,15 @@ export const getTournament = async (req, res) => {
 };
 
 export const deleteTournament = async (req, res, id) => {
+  const organizerId = req.playerId;
+
   try {
+    const organizer = await Player.findById(organizerId);
+    if (organizer.accountType == "user") {
+      return res
+        .status(401)
+        .json({ message: "Player is not allowed to create tournament" });
+    }
     await Tournament.findByIdAndDelete(id);
     const tournaments = await Tournament.find();
     const stortedTournaments = tournaments.sort(
