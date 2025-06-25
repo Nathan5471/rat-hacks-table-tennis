@@ -6,10 +6,11 @@ import { redirect } from "next/navigation";
 import { getDbAsync } from "@/lib/drizzle.js";
 import hash from "@/lib/hash.js";
 import generateToken from "@/lib/generateToken";
+import generateAdminToken from "@/lib/generateAdminToken";
 import { authenticated } from "@/controllers/auth.js";
-import { users } from "@/lib/schema";
+import { users, admins } from "@/lib/schema";
 
-export async function authenticate(previousState, formData) {
+export async function authenticate(formData) {
   const cookieStore = await cookies();
 
   const db = await getDbAsync();
@@ -43,6 +44,42 @@ export async function authenticate(previousState, formData) {
   });
 
   redirect("/home");
+}
+
+export async function adminAuthenticate(formData) {
+  const cookieStore = await cookies();
+
+  const db = await getDbAsync();
+
+  const username = formData.get("username");
+  const password = formData.get("password");
+
+  const admin = await db.query.admins.findFirst({
+    where: (admins, { eq }) => eq(admins.username, username),
+  });
+
+  if (!admin) {
+    return;
+  }
+
+  const salt = admin.passwordSalt;
+
+  const passwordHash = await hash(password + salt);
+
+  if (passwordHash !== admin.passwordHash) {
+    return;
+  }
+
+  cookieStore.set({
+    name: "token",
+    value: await generateAdminToken(username),
+    httpOnly: true,
+    sameSite: "strict",
+    maxAge: 60 * 60 * 24 * 2, // 2 days
+    path: "/",
+  });
+
+  redirect("/adminpanel");
 }
 
 export async function logout() {

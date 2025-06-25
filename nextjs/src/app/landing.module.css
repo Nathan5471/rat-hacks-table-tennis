@@ -2,7 +2,7 @@
   height: calc(100vh - 200px);
   width: 100%;
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 60px 3fr 2fr 60px;
 }
 
 .left {
@@ -71,11 +71,11 @@
   align-items: center;
   border-radius: 10px;
   box-sizing: border-box;
-  transform: translateY(0) translateX(0) rotate(-5deg);
+  transform: translateY(0) translateX(0);
 }
 
 .right div:hover {
-  transform: translateY(-6px) translateX(-6px) rotate(-5deg);
+  transform: translateY(-6px) translateX(-6px);
 }
 
 .right div h1 {

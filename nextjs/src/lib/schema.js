@@ -12,6 +12,7 @@ export const users = sqliteTable("User", {
   username: text("username").unique().notNull(),
   passwordHash: text("password_hash").notNull(),
   passwordSalt: text("password_salt").notNull(),
+  rating: integer("rating"),
 });
 
 export const userRelations = relations(users, ({ many }) => ({

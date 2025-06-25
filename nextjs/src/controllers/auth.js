@@ -21,6 +21,10 @@ export async function authenticated(req) {
       return false;
     }
 
+    if (payload.admin) {
+      return { username: payload.username, admin: payload.admin };
+    }
+
     return payload.username;
   } catch (error) {
     console.error("JWT verification failed:", error);

@@ -7,6 +7,7 @@ export default function Landing() {
     <>
       <Header />
       <div className={styles.container}>
+        <div></div>
         <div className={styles.left}>
           <div>
             <h1>Rat Hacks</h1>

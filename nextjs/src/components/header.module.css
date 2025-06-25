@@ -30,7 +30,7 @@
   border: none;
   background-color: #606c38;
   border-radius: 10px;
-  color: white;
+  color: #fefae0;
   font-size: larger;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
