@@ -7,7 +7,7 @@ import { getDbAsync } from "@/lib/drizzle.js";
 import hash from "@/lib/hash.js";
 import generateToken from "@/lib/generateToken";
 import { authenticated } from "@/controllers/auth.js";
-import { usersTable } from "@/lib/schema";
+import { users } from "@/lib/schema";
 
 export async function authenticate(previousState, formData) {
   const cookieStore = await cookies();
@@ -17,7 +17,7 @@ export async function authenticate(previousState, formData) {
   const username = formData.get("username");
   const password = formData.get("password");
 
-  const user = await db.query.usersTable.findFirst({
+  const user = await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.username, username),
   });
 
@@ -42,7 +42,7 @@ export async function authenticate(previousState, formData) {
     path: "/",
   });
 
-  redirect("/menu");
+  redirect("/home");
 }
 
 export async function logout() {
@@ -53,7 +53,7 @@ export async function logout() {
   redirect("/login");
 }
 
-export async function createUser(previousState, formData) {
+export async function createUser(formData) {
   const cookieStore = await cookies();
 
   const db = await getDbAsync();
@@ -70,7 +70,7 @@ export async function createUser(previousState, formData) {
   const passwordHash = await hash(password + salt);
 
   try {
-    await db.insert(usersTable).values({
+    await db.insert(users).values({
       username,
       passwordHash,
       passwordSalt: salt,
@@ -88,7 +88,7 @@ export async function createUser(previousState, formData) {
     console.log(error);
     return;
   }
-  redirect("/menu");
+  redirect("/home");
 }
 
 export async function checkToken() {

@@ -1,12 +1,12 @@
-import styles from "./signup.module.css";
-import { createUser } from "@/actions/authActions";
+import styles from "./admin.module.css";
+import { adminAuthenticate } from "@/actions/authActions";
 
-export default function Signup() {
+export default function Admin() {
   return (
     <>
       <div className={styles.container}>
-        <form action={createUser}>
-          <h1>Signup</h1>
+        <form action={adminAuthenticate}>
+          <h1>Admin Login</h1>
           <div>
             <label>Username:</label> <br />
             <input type="text" id="username" name="username"></input>
@@ -17,7 +17,7 @@ export default function Signup() {
             <input type="password" id="password" name="password" />
             <br />
           </div>
-          <button>Signup</button>
+          <button>Login</button>
         </form>
       </div>
     </>

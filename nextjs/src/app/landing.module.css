@@ -94,3 +94,6 @@
   border-top: #dda15e 10px solid;
   box-sizing: border-box;
 }
+
+@media (max-width: 480px) {
+}

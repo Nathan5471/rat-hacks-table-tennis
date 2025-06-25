@@ -1,9 +1,8 @@
 import Header from "@/components/Header";
-import styles from "./home.module.css";
-import Image from "next/image";
+import styles from "./landing.module.css";
 import Link from "next/link";
 
-export default function Home() {
+export default function Landing() {
   return (
     <>
       <Header />
