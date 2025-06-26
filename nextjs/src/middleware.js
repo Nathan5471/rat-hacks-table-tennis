@@ -3,13 +3,25 @@ import { authenticated } from "@/controllers/auth.js";
 
 const appRoutes = ["/home", "/tournaments"];
 const siteRoutes = ["/login", "/signup", "/", "/admin"];
-const adminRoutes = ["/adminpanel", "/adminpanel/create"];
+const adminRoutes = ["/adminpanel"];
 
 export async function middleware(req) {
   if (
-    !appRoutes.includes(req.nextUrl.pathname) &&
-    !siteRoutes.includes(req.nextUrl.pathname) &&
-    !adminRoutes.includes(req.nextUrl.pathname)
+    !appRoutes.some((route) =>
+      route === "/"
+        ? req.nextUrl.pathname === "/"
+        : req.nextUrl.pathname.startsWith(route)
+    ) &&
+    !siteRoutes.some((route) =>
+      route === "/"
+        ? req.nextUrl.pathname === "/"
+        : req.nextUrl.pathname.startsWith(route)
+    ) &&
+    !adminRoutes.some((route) =>
+      route === "/"
+        ? req.nextUrl.pathname === "/"
+        : req.nextUrl.pathname.startsWith(route)
+    )
   ) {
     return NextResponse.next();
   }
@@ -17,16 +29,36 @@ export async function middleware(req) {
   const isAuth = await authenticated(req);
 
   if (isAuth.admin) {
-    if (adminRoutes.includes(req.nextUrl.pathname)) {
+    if (
+      adminRoutes.some((route) =>
+        route === "/"
+          ? req.nextUrl.pathname === "/"
+          : req.nextUrl.pathname.startsWith(route)
+      )
+    ) {
       return NextResponse.next();
     }
     return NextResponse.redirect(new URL("/adminpanel", req.url));
   }
 
   if (
-    ((!isAuth && siteRoutes.includes(req.nextUrl.pathname)) ||
-      (isAuth && !siteRoutes.includes(req.nextUrl.pathname))) &&
-    !adminRoutes.includes(req.nextUrl.pathname)
+    ((!isAuth &&
+      siteRoutes.some((route) =>
+        route === "/"
+          ? req.nextUrl.pathname === "/"
+          : req.nextUrl.pathname.startsWith(route)
+      )) ||
+      (isAuth &&
+        !siteRoutes.some((route) =>
+          route === "/"
+            ? req.nextUrl.pathname === "/"
+            : req.nextUrl.pathname.startsWith(route)
+        ))) &&
+    !adminRoutes.some((route) =>
+      route === "/"
+        ? req.nextUrl.pathname === "/"
+        : req.nextUrl.pathname.startsWith(route)
+    )
   ) {
     return NextResponse.next();
   }

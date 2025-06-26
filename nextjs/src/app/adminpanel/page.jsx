@@ -1,7 +1,9 @@
 import { logout } from "@/actions/authActions";
+import { startTournament } from "@/actions/tournamentActions";
 import { getDbAsync } from "@/lib/drizzle";
 import { tournaments } from "@/lib/schema";
 import Link from "next/link";
+import { TournamentItem } from "./TournamentItem";
 
 export default async function AdminPanel() {
   const db = await getDbAsync();
@@ -25,9 +27,7 @@ export default async function AdminPanel() {
       </form>
       <Link href="/adminpanel/create">Create</Link>
       {allTournaments.map((t) => (
-        <div key={t.id}>
-          {t.name} <Link href={`/adminpanel/edit/${t.id}`}>Edit</Link>
-        </div>
+        <TournamentItem key={t.id} tournament={t} />
       ))}
     </>
   );

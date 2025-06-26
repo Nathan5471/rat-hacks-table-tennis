@@ -22,7 +22,24 @@
       "database_id": "d87dd0bd-f044-430b-8cac-bad1048bbf1d",
       "migrations_dir": "drizzle"
     }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "TOURNAMENT",
+        "class_name": "Tournament",
+        "script_name": "websockets"
+      }
+    ]
+  },
+  "services": [
+    {
+      "binding": "WEBSOCKETS_SERVICE",
+      "service": "websockets",
+      "entrypoint": "TournamentEntry"
+    }
   ]
+
   /**
    * Smart Placement
    * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

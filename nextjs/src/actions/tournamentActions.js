@@ -6,6 +6,7 @@ import { tournaments, tournamentUsers, users } from "@/lib/schema";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export async function createTournament(name, size) {
   const db = await getDbAsync();
@@ -102,6 +103,7 @@ export async function joinTournament(id) {
     revalidatePath("/tournaments");
   } catch (err) {
     console.log(err);
+    return;
   }
 }
 
@@ -113,6 +115,7 @@ export async function leaveTournament(id) {
   if (!username) {
     throw new Error("Not authenticated");
   }
+
   try {
     const user = await db.query.users.findFirst({
       where: eq(users.username, username),
@@ -146,7 +149,51 @@ export async function leaveTournament(id) {
     }
   } catch (err) {
     console.log(err);
+    return;
   }
 
   revalidatePath("/tournaments");
+}
+
+export async function startTournament(id) {
+  const db = await getDbAsync();
+
+  const { username, admin } = await authenticated();
+
+  if (!username || !admin) {
+    return;
+  }
+  try {
+    const tournament = await db.query.tournaments.findFirst({
+      where: eq(tournaments.id, id),
+      with: { users: { with: { user: true } } },
+    });
+
+    if (!tournament) {
+      throw new Error("Tournament not found");
+    }
+
+    if (tournament.status !== "upcoming") {
+      throw new Error("Cannot start tournament that is not upcoming");
+    }
+
+    const count = tournament.users.length;
+
+    if (count != tournament.size) {
+      throw new Error("Tournament doesn't have enough players");
+    }
+
+    await db
+      .update(tournaments)
+      .set({ status: "ongoing" })
+      .where(eq(tournaments.id, id));
+
+    const cf = getCloudflareContext();
+    await cf.env.WEBSOCKETS_SERVICE.startTournament(id);
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+
+  redirect("/adminpanel/live/" + id);
 }
