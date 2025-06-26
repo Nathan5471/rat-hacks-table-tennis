@@ -1,6 +1,6 @@
 import { getDbAsync } from "@/lib/drizzle";
 import { eq } from "drizzle-orm";
-import { tournaments, tournamentUsers, users } from "@/lib/schema";
+import { tournaments, tournamentUsers, users } from "database/schema";
 import EditClient from "./EditClient.jsx";
 
 export default async function Edit({ params }) {

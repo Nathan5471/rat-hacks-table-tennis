@@ -1,5 +1,5 @@
 import { getDbAsync } from "@/lib/drizzle";
-import { tournaments, users } from "@/lib/schema";
+import { tournaments, users } from "database/schema";
 import TournamentsList from "./TournamentsList";
 import { authenticated } from "@/controllers/auth";
 import { eq } from "drizzle-orm";

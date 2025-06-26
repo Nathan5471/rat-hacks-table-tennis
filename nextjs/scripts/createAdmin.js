@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { drizzle } from "drizzle-orm/d1";
-import { admins } from "../src/lib/schema.js";
+import { admins } from "../../database/schema.js/index.js";
 import hash from "@/lib/hash.js";
 
 export default {

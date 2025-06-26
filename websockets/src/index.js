@@ -8,7 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 import { DurableObject, WorkerEntrypoint } from "cloudflare:workers";
-import { jwtVerify } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 
 export default {
 	async fetch(request, env, ctx) {
@@ -55,6 +55,8 @@ export class Tournament extends DurableObject {
 		this.storage = state.storage;
 		this.state.blockConcurrencyWhile(async () => {
 			this.size = (await this.storage.get("size")) || null;
+			this.tournamentId = (await this.storage.get("tournamentId")) || null;
+			this.users = (await this.storage.get("users")) || null;
 			this.bracket = (await this.storage.get("bracket")) || null;
 			this.currentMatchNumber =
 				(await this.storage.get("currentMatchNumber")) || 1;
@@ -105,8 +107,10 @@ export class Tournament extends DurableObject {
 		});
 	}
 
-	async startTournament(size, users) {
+	async startTournament(size, users, tournamentId) {
 		this.size = size;
+		this.tournamentId = tournamentId;
+		this.users = users;
 		let initialBracket = [[]];
 		let chunk = [];
 		for (let i = 0; i < size; i++) {
@@ -128,6 +132,8 @@ export class Tournament extends DurableObject {
 
 	async saveState() {
 		await this.storage.put("size", this.size);
+		await this.storage.put("tournamentId", this.tournamentId);
+		await this.storage.put("users", this.users);
 		await this.storage.put("bracket", this.bracket);
 		await this.storage.put("currentMatchNumber", this.currentMatchNumber);
 		await this.storage.put("currentRoundIndex", this.currentRoundIndex);
@@ -195,6 +201,7 @@ export class Tournament extends DurableObject {
 					this.currentScores[0] += 1;
 					await this.saveState();
 					this.broadcastMessage("scores", { scores: this.currentScores });
+					await this.checkScores();
 				}
 				break;
 			}
@@ -206,6 +213,7 @@ export class Tournament extends DurableObject {
 					this.currentScores[1] += 1;
 					await this.saveState();
 					this.broadcastMessage("scores", { scores: this.currentScores });
+					await this.checkScores();
 				}
 				break;
 			}
@@ -217,6 +225,7 @@ export class Tournament extends DurableObject {
 					this.currentScores[0] += -1;
 					await this.saveState();
 					this.broadcastMessage("scores", { scores: this.currentScores });
+					await this.checkScores();
 				}
 				break;
 			}
@@ -228,10 +237,58 @@ export class Tournament extends DurableObject {
 					this.currentScores[1] += -1;
 					await this.saveState();
 					this.broadcastMessage("scores", { scores: this.currentScores });
+					await this.checkScores();
 				}
 				break;
 			}
 		}
+	}
+
+	async checkScores() {
+		if (this.currentScores[0] > 10 || this.currentScores[1] > 10) {
+			await this.matchEnd();
+		}
+	}
+
+	async matchEnd() {
+
+
+		if () {return}
+			let { roundIndex, matchIndex } = this.returnRoundAndMatch(
+				this.size,
+				this.currentMatchNumber
+			);
+
+			let createdMatch = createMatchRequest.match;
+
+			createdMatch.player1 = this.currentPlayer1;
+			createdMatch.player2 = this.currentPlayer2;
+
+			this.bracket[roundIndex][matchIndex] = createdMatch;
+
+			const nextRoundIndex = this.returnRoundAndMatch(
+				this.size,
+				this.currentMatchNumber + 1
+			).roundIndex;
+
+			if (nextRoundIndex > this.currentRoundIndex) {
+				let lastRoundWinners = [];
+
+				for (let match of this.bracket[roundIndex]) {
+					if (match.player1Score > match.player2Score) {
+						lastRoundWinners.push(match.player1);
+						break;
+					}
+					lastRoundWinners.push(match.player2);
+				}
+
+				if (lastRoundWinners.length == 1) {
+					this.bracket.push([]);
+				}
+			}
+
+			this.saveState();
+
 	}
 
 	async broadcastMessage(event, data) {
@@ -269,6 +326,6 @@ export class TournamentEntry extends WorkerEntrypoint {
 	async startTournament(id, size, users) {
 		const stubId = this.env.TOURNAMENT.idFromName(id.toString());
 		const stub = this.env.TOURNAMENT.get(stubId);
-		await stub.startTournament(size, users);
+		await stub.startTournament(size, users, id);
 	}
 }

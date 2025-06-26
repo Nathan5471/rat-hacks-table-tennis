@@ -87,6 +87,7 @@ export const tournamentUsers = sqliteTable(
     tournamentId: integer("tournament_id")
       .notNull()
       .references(() => tournaments.id, { onDelete: "cascade" }),
+    standing: integer("standing"),
   },
   (table) => [primaryKey({ columns: [table.userId, table.tournamentId] })]
 );

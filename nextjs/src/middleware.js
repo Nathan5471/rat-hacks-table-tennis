@@ -4,8 +4,12 @@ import { authenticated } from "@/controllers/auth.js";
 const appRoutes = ["/home", "/tournaments"];
 const siteRoutes = ["/login", "/signup", "/", "/admin"];
 const adminRoutes = ["/adminpanel"];
+const apiRoutes = ["/api"];
 
 export async function middleware(req) {
+  if (apiRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
+    return NextResponse.next();
+  }
   if (
     !appRoutes.some((route) =>
       route === "/"

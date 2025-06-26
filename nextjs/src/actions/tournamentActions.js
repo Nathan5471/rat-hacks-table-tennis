@@ -2,7 +2,7 @@
 
 import { authenticated } from "@/controllers/auth";
 import { getDbAsync } from "@/lib/drizzle";
-import { tournaments, tournamentUsers, users } from "@/lib/schema";
+import { tournaments, tournamentUsers, users } from "database/schema";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -222,6 +222,10 @@ export async function startTournament(id) {
       tournament.users.map((u) => u.user)
     );
   } catch (err) {
+    await db
+      .update(tournaments)
+      .set({ status: "upcoming" })
+      .where(eq(tournaments.id, id));
     console.log(err);
     return;
   }

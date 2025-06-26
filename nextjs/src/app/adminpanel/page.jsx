@@ -1,7 +1,7 @@
 import { logout } from "@/actions/authActions";
 import { startTournament } from "@/actions/tournamentActions";
 import { getDbAsync } from "@/lib/drizzle";
-import { tournaments } from "@/lib/schema";
+import { tournaments } from "database/schema";
 import Link from "next/link";
 import UpcomingTournament from "./UpcomingTournament";
 import OngoingTournament from "./OngoingTournament";

@@ -8,7 +8,7 @@ import hash from "@/lib/hash.js";
 import generateToken from "@/lib/generateToken";
 import generateAdminToken from "@/lib/generateAdminToken";
 import { authenticated } from "@/controllers/auth.js";
-import { users, admins } from "@/lib/schema";
+import { users, admins } from "database/schema";
 
 export async function authenticate(formData) {
   const cookieStore = await cookies();
