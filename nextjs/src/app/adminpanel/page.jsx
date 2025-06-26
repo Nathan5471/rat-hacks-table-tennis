@@ -5,7 +5,18 @@ import Link from "next/link";
 
 export default async function AdminPanel() {
   const db = await getDbAsync();
-  const allTournaments = await db.select().from(tournaments);
+  const allTournaments = await db.query.tournaments.findMany({
+    with: {
+      users: {
+        user: {
+          columns: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    },
+  });
   return (
     <>
       Admin Panel{" "}

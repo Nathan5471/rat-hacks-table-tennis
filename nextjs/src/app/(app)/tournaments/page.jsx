@@ -9,9 +9,25 @@ export default async function Tournaments() {
 
   const username = await authenticated();
 
-  const allTournaments = await db.select().from(tournaments);
+  const allTournaments = await db.query.tournaments.findMany({
+    with: {
+      users: {
+        user: {
+          columns: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    },
+  });
 
   const userWithTournaments = await db.query.users.findFirst({
+    columns: {
+      id: true,
+      username: true,
+      rating: true,
+    },
     where: eq(users.username, username),
     with: {
       tournaments: {

@@ -1,15 +1,22 @@
 "use client";
 
-import { leaveTournament } from "@/actions/tournamentActions";
-import { useOptimistic } from "react";
+import { joinTournament, leaveTournament } from "@/actions/tournamentActions";
+import { useOptimistic, useTransition } from "react";
 
 export default function TournamentsList({ tournaments, myTournaments }) {
-  const [optimisticMyTournaments, optimisticLeaveTournament] = useOptimistic(
+  const [optimisticMyTournaments, optimisticUpdateTournament] = useOptimistic(
     myTournaments,
-    (state, id) => {
-      return state.filter((tournament) => tournament.id != id);
+    (state, { action, tournament }) => {
+      if (action == "leave") {
+        return state.filter((t) => t.id != tournament.id);
+      }
+      if (action == "join") {
+        return [...state, tournament];
+      }
     }
   );
+
+  const [isPending, startTransition] = useTransition();
 
   return (
     <>
@@ -19,14 +26,30 @@ export default function TournamentsList({ tournaments, myTournaments }) {
           {optimisticMyTournaments.find((t) => t.id == tournament.id) ? (
             <button
               onClick={async () => {
-                optimisticLeaveTournament(tournament.id);
-                await leaveTournament(tournament.id);
+                startTransition(async () => {
+                  optimisticUpdateTournament({
+                    action: "leave",
+                    tournament,
+                  });
+                  await leaveTournament(tournament.id);
+                });
               }}
             >
               Leave
             </button>
+          ) : tournament.users.length < tournament.size ? (
+            <button
+              onClick={async () => {
+                startTransition(async () => {
+                  optimisticUpdateTournament({ action: "join", tournament });
+                  await joinTournament(tournament.id);
+                });
+              }}
+            >
+              Join
+            </button>
           ) : (
-            <button onClick={() => {}}>Join</button>
+            <>Room Full</>
           )}
         </div>
       ))}

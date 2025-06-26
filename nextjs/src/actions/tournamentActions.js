@@ -2,7 +2,7 @@
 
 import { authenticated } from "@/controllers/auth";
 import { getDbAsync } from "@/lib/drizzle";
-import { tournaments, users } from "@/lib/schema";
+import { tournaments, tournamentUsers, users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -69,12 +69,34 @@ export async function joinTournament(id) {
       where: eq(users.username, username),
     });
 
-    const count = await db.query.tournaments.findFirst({
+    const tournament = await db.query.tournaments.findFirst({
       where: eq(tournaments.id, id),
       with: { users: { with: { user: true } } },
     });
 
-    console.log(count);
+    if (!tournament) {
+      return { error: "Tournament not found" };
+    }
+
+    if (tournament.status !== "upcoming") {
+      return { error: "Cannot join tournament that is not upcoming" };
+    }
+
+    const count = tournament.users.length;
+
+    if (count >= tournament.size) {
+      return { error: "Tournament is full" };
+    }
+
+    const alreadyJoined = tournament.users.some((tu) => tu.user.id === user.id);
+    if (alreadyJoined) {
+      return { error: "Already joined this tournament" };
+    }
+
+    await db.insert(tournamentUsers).values({
+      userId: user.id,
+      tournamentId: parseInt(id),
+    });
   } catch (err) {
     console.log(err);
   }
