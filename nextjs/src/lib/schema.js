@@ -16,7 +16,8 @@ export const users = sqliteTable("User", {
 });
 
 export const userRelations = relations(users, ({ many }) => ({
-  matches: many(matchUsers),
+  tournaments: many(tournamentUsers),
+  matches: many(matches),
 }));
 
 export const admins = sqliteTable("Admin", {
@@ -28,38 +29,23 @@ export const admins = sqliteTable("Admin", {
 
 export const matches = sqliteTable("Match", {
   id: integer("id").primaryKey({ autoIncrement: true }),
+  player1Id: integer("player_1")
+    .notNull()
+    .references(() => users.id),
+  player2Id: integer("player_2")
+    .notNull()
+    .references(() => users.id),
+  player1Score: integer("player_1_score").notNull(),
+  player2Score: integer("player_2_score").notNull(),
   tournamentId: integer("tournament_id")
     .notNull()
     .references(() => tournaments.id),
 });
 
-export const matchRelations = relations(matches, ({ one, many }) => ({
-  users: many(matchUsers),
+export const matchRelations = relations(matches, ({ one }) => ({
+  player1: one(users),
+  player2: one(users),
   tournament: one(tournaments),
-}));
-
-export const matchUsers = sqliteTable(
-  "match_users",
-  {
-    userId: integer("user_id")
-      .notNull()
-      .references(() => users.id),
-    matchId: integer("match_id")
-      .notNull()
-      .references(() => matches.id),
-  },
-  (table) => [primaryKey({ columns: [table.userId, table.matchId] })]
-);
-
-export const matchUsersRelations = relations(matchUsers, ({ one }) => ({
-  user: one(users, {
-    fields: [matchUsers.userId],
-    references: [users.id],
-  }),
-  match: one(matches, {
-    fields: [matchUsers.matchId],
-    references: [matches.id],
-  }),
 }));
 
 export const tournaments = sqliteTable(
@@ -89,7 +75,7 @@ export const tournaments = sqliteTable(
 
 export const tournamentRelations = relations(tournaments, ({ many }) => ({
   matches: many(matches),
-  users: many(users),
+  users: many(tournamentUsers),
 }));
 
 export const tournamentUsers = sqliteTable(
@@ -103,4 +89,18 @@ export const tournamentUsers = sqliteTable(
       .references(() => tournaments.id),
   },
   (table) => [primaryKey({ columns: [table.userId, table.tournamentId] })]
+);
+
+export const tournamentUsersRelations = relations(
+  tournamentUsers,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [tournamentUsers.userId],
+      references: [users.id],
+    }),
+    tournament: one(tournaments, {
+      fields: [tournamentUsers.tournamentId],
+      references: [tournaments.id],
+    }),
+  })
 );

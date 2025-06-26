@@ -1,11 +1,10 @@
 "use client";
-
-import { createTournament } from "@/actions/tournamentActions";
 import { useMemo, useState } from "react";
+import { editTournament } from "@/actions/tournamentActions";
 
-export default function Create() {
-  const [selectedSize, setSelectedSize] = useState(2);
-  const [selectedName, setSelectedName] = useState("");
+export default function EditClient({ name, size, users, id }) {
+  const [newName, setNewName] = useState(name);
+  const [newSize, setNewSize] = useState(size);
 
   const sizeOptions = useMemo(() => {
     let sizeOptionsArray = [];
@@ -16,16 +15,16 @@ export default function Create() {
   }, []);
 
   return (
-    <div>
+    <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createTournament(selectedName, selectedSize);
+          editTournament(id, newName, newSize);
         }}
       >
         <select
-          value={selectedSize}
-          onChange={(e) => setSelectedSize(Number(e.target.value))}
+          value={newSize}
+          onChange={(e) => setNewSize(Number(e.target.value))}
         >
           {sizeOptions.map((o) => (
             <option key={o} value={o}>
@@ -34,11 +33,11 @@ export default function Create() {
           ))}
         </select>
         <input
-          value={selectedName}
-          onChange={(e) => setSelectedName(e.target.value)}
-        />
-        <button type="submit">Create</button>
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+        ></input>
+        <button type="submit">Edit</button>
       </form>
-    </div>
+    </>
   );
 }
