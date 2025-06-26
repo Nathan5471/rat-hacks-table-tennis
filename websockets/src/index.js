@@ -9,6 +9,9 @@
  */
 import { DurableObject, WorkerEntrypoint } from "cloudflare:workers";
 import { jwtVerify, SignJWT } from "jose";
+import { drizzle } from "drizzle-orm/d1";
+import * as schema from "database/schema";
+import { users, matches, tournaments } from "database/schema";
 
 export default {
 	async fetch(request, env, ctx) {
@@ -60,8 +63,6 @@ export class Tournament extends DurableObject {
 			this.bracket = (await this.storage.get("bracket")) || null;
 			this.currentMatchNumber =
 				(await this.storage.get("currentMatchNumber")) || 1;
-			this.currentRoundIndex =
-				(await this.storage.get("currentRoundIndex")) || 0; // 0 indexed
 			this.currentPlayer1 = (await this.storage.get("currentPlayer1")) || null;
 			this.currentPlayer2 = (await this.storage.get("currentPlayer2")) || null;
 			this.currentScores = (await this.storage.get("currentScores")) || [0, 0];
@@ -122,7 +123,6 @@ export class Tournament extends DurableObject {
 		}
 		this.bracket = initialBracket;
 		this.currentMatchNumber = 1;
-		this.currentRoundIndex = 0;
 		const { roundIndex, matchIndex } = this.returnRoundAndMatch(size, 1);
 		this.currentPlayer1 = this.bracket[roundIndex][matchIndex][0];
 		this.currentPlayer2 = this.bracket[roundIndex][matchIndex][1];
@@ -136,7 +136,6 @@ export class Tournament extends DurableObject {
 		await this.storage.put("users", this.users);
 		await this.storage.put("bracket", this.bracket);
 		await this.storage.put("currentMatchNumber", this.currentMatchNumber);
-		await this.storage.put("currentRoundIndex", this.currentRoundIndex);
 		await this.storage.put("currentPlayer1", this.currentPlayer1);
 		await this.storage.put("currentPlayer2", this.currentPlayer2);
 		await this.storage.put("currentScores", this.currentScores);
@@ -150,7 +149,10 @@ export class Tournament extends DurableObject {
 				event: "tournamentState",
 				data: {
 					size: this.size,
-					roundIndex: this.currentRoundIndex,
+					roundIndex: this.returnRoundAndMatch(
+						this.size,
+						this.currentMatchNumber
+					).roundIndex,
 					matchIndex: this.returnRoundAndMatch(
 						this.size,
 						this.currentMatchNumber
@@ -251,45 +253,85 @@ export class Tournament extends DurableObject {
 	}
 
 	async matchEnd() {
+		const db = drizzle(this.env.DB, { schema });
 
+		const created = await db
+			.insert(matches)
+			.values({
+				player1Id: this.currentPlayer1.id,
+				player2Id: this.currentPlayer2.id,
+				player1Score: this.currentScores[0],
+				player2Score: this.currentScores[1],
+				tournamentId: this.tournamentId,
+			})
+			.returning();
 
-		if () {return}
-			let { roundIndex, matchIndex } = this.returnRoundAndMatch(
-				this.size,
-				this.currentMatchNumber
-			);
+		if (!created) {
+			throw new Error("Couldn't create match.");
+		}
 
-			let createdMatch = createMatchRequest.match;
+		if (this.currentScores[0] == this.currentScores[1]) {
+			throw new Error("Tie??");
+		}
 
-			createdMatch.player1 = this.currentPlayer1;
-			createdMatch.player2 = this.currentPlayer2;
+		const winner =
+			this.currentScores[0] > this.currentScores[1]
+				? this.currentPlayer1
+				: this.currentPlayer2;
 
-			this.bracket[roundIndex][matchIndex] = createdMatch;
+		const loser =
+			this.currentScores[0] < this.currentScores[1]
+				? this.currentPlayer1
+				: this.currentPlayer2;
 
-			const nextRoundIndex = this.returnRoundAndMatch(
-				this.size,
-				this.currentMatchNumber + 1
-			).roundIndex;
+		const { roundIndex, matchIndex } = this.returnRoundAndMatch(
+			this.size,
+			this.currentMatchNumber
+		);
 
-			if (nextRoundIndex > this.currentRoundIndex) {
-				let lastRoundWinners = [];
+		this.bracket[roundIndex][matchIndex] = { winner, loser };
 
-				for (let match of this.bracket[roundIndex]) {
-					if (match.player1Score > match.player2Score) {
-						lastRoundWinners.push(match.player1);
-						break;
-					}
-					lastRoundWinners.push(match.player2);
-				}
+		const nextRoundIndex = this.returnRoundAndMatch(
+			this.size,
+			this.currentMatchNumber + 1
+		).roundIndex;
 
-				if (lastRoundWinners.length == 1) {
-					this.bracket.push([]);
-				}
-			}
+		if (nextRoundIndex > roundIndex) {
+			await this.startNextRound();
+			return;
+		}
 
-			this.saveState();
+		this.currentMatchNumber += 1;
+		this.currentPlayer1 = this.bracket[roundIndex][matchIndex + 1][0];
+		this.currentPlayer1 = this.bracket[roundIndex][matchIndex + 1][1];
+		this.currentScores = [0, 0];
 
+		await this.broadcastMessage("tournamentState", {
+			size: this.size,
+			roundIndex: this.returnRoundAndMatch(this.size, this.currentMatchNumber)
+				.roundIndex,
+			matchIndex: this.returnRoundAndMatch(this.size, this.currentMatchNumber)
+				.matchIndex,
+			player1: this.currentPlayer1,
+			player2: this.currentPlayer2,
+			scores: this.currentScores,
+		});
+
+		this.saveState();
 	}
+
+	async startNextRound() {
+		const { roundIndex, matchIndex } = this.returnRoundAndMatch(
+			this.size,
+			this.currentMatchNumber
+		);
+
+		if (2 ** (roundIndex + 1) == size) {
+			this.endTournament();
+		}
+	}
+
+	async endTournament() {}
 
 	async broadcastMessage(event, data) {
 		this.sessions.forEach((_, ws) => {

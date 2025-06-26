@@ -14,6 +14,14 @@
 	"observability": {
 		"enabled": true
 	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "table-tennis-db",
+			"database_id": "d87dd0bd-f044-430b-8cac-bad1048bbf1d",
+			"migrations_dir": "../database/drizzle"
+		}
+	],
 	"durable_objects": {
 		"bindings": [
 			{

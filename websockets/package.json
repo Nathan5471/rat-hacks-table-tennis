@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
+		"dev": "wrangler dev --persist-to ../nextjs/.wrangler/state",
 		"start": "wrangler dev",
 		"test": "vitest"
 	},
@@ -14,6 +14,8 @@
 		"wrangler": "^4.21.0"
 	},
 	"dependencies": {
+		"drizzle-kit": "^0.31.3",
+		"drizzle-orm": "^0.44.2",
 		"jose": "^6.0.11"
 	}
 }

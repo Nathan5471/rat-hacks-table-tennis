@@ -39,7 +39,7 @@ export const matches = sqliteTable("Match", {
   player2Score: integer("player_2_score").notNull(),
   tournamentId: integer("tournament_id")
     .notNull()
-    .references(() => tournaments.id),
+    .references(() => tournaments.id, { onDelete: "cascade" }),
 });
 
 export const matchRelations = relations(matches, ({ one }) => ({
