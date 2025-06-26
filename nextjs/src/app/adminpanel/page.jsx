@@ -3,7 +3,9 @@ import { startTournament } from "@/actions/tournamentActions";
 import { getDbAsync } from "@/lib/drizzle";
 import { tournaments } from "@/lib/schema";
 import Link from "next/link";
-import { TournamentItem } from "./TournamentItem";
+import UpcomingTournament from "./UpcomingTournament";
+import OngoingTournament from "./OngoingTournament";
+import { Fragment } from "react";
 
 export default async function AdminPanel() {
   const db = await getDbAsync();
@@ -27,7 +29,10 @@ export default async function AdminPanel() {
       </form>
       <Link href="/adminpanel/create">Create</Link>
       {allTournaments.map((t) => (
-        <TournamentItem key={t.id} tournament={t} />
+        <Fragment key={t.id}>
+          {t.status == "upcoming" && <UpcomingTournament tournament={t} />}
+          {t.status == "ongoing" && <OngoingTournament tournament={t} />}
+        </Fragment>
       ))}
     </>
   );

@@ -191,7 +191,9 @@ export async function startTournament(id) {
   try {
     const tournament = await db.query.tournaments.findFirst({
       where: eq(tournaments.id, id),
-      with: { users: { with: { user: true } } },
+      with: {
+        users: { with: { user: { columns: { id: true, username: true } } } },
+      },
     });
 
     if (!tournament) {
@@ -217,7 +219,7 @@ export async function startTournament(id) {
     await cf.env.WEBSOCKETS_SERVICE.startTournament(
       id,
       tournament.size,
-      tournament.users
+      tournament.users.map((u) => u.user)
     );
   } catch (err) {
     console.log(err);

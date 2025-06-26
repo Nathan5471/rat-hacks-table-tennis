@@ -1,0 +1,153 @@
+.container {
+  padding: 2rem;
+  background-color: #fefae0;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.tournamentInfo {
+  background-color: #283618;
+  color: #fefae0;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tournamentTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.matchInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.infoCard {
+  background-color: #606c38;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.infoLabel {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.infoValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.scoreSection {
+  background-color: #283618;
+  color: #fefae0;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.versusDisplay {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.scoreDisplay {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  color: #dda15e;
+}
+
+.controlsSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.playerControls {
+  background-color: #283618;
+  color: #fefae0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.playerName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #dda15e;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.addPointButton {
+  background-color: #606c38;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem;
+  color: #fefae0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0) translateX(0);
+}
+
+.addPointButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  background-color: #7a8242;
+}
+
+.subtractPointButton {
+  background-color: #bc6c25;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem;
+  color: #fefae0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(0) translateX(0);
+}
+
+.subtractPointButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  background-color: #d4722a;
+}
+
+@media (max-width: 768px) {
+  .matchInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .controlsSection {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .scoreDisplay {
+    font-size: 2rem;
+  }
+}
