@@ -155,6 +155,31 @@ export async function leaveTournament(id) {
   revalidatePath("/tournaments");
 }
 
+export async function deleteTournament(id) {
+  const db = await getDbAsync();
+
+  const { username, admin } = await authenticated();
+
+  if (!username || !admin) {
+    return;
+  }
+  try {
+    let deleted = await db
+      .delete(tournaments)
+      .where(eq(tournaments.id, id))
+      .returning();
+
+    if (!deleted) {
+      return;
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+
+  revalidatePath("/adminpanel");
+}
+
 export async function startTournament(id) {
   const db = await getDbAsync();
 
@@ -189,7 +214,11 @@ export async function startTournament(id) {
       .where(eq(tournaments.id, id));
 
     const cf = getCloudflareContext();
-    await cf.env.WEBSOCKETS_SERVICE.startTournament(id);
+    await cf.env.WEBSOCKETS_SERVICE.startTournament(
+      id,
+      tournament.size,
+      tournament.users
+    );
   } catch (err) {
     console.log(err);
     return;
