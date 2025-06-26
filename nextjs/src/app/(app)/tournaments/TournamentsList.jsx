@@ -23,34 +23,35 @@ export default function TournamentsList({ tournaments, myTournaments }) {
       {tournaments.map((tournament) => (
         <div key={tournament.id}>
           {tournament.name}{" "}
-          {optimisticMyTournaments.find((t) => t.id == tournament.id) ? (
-            <button
-              onClick={async () => {
-                startTransition(async () => {
-                  optimisticUpdateTournament({
-                    action: "leave",
-                    tournament,
+          {tournament.status == "upcoming" &&
+            (optimisticMyTournaments.find((t) => t.id == tournament.id) ? (
+              <button
+                onClick={async () => {
+                  startTransition(async () => {
+                    optimisticUpdateTournament({
+                      action: "leave",
+                      tournament,
+                    });
+                    await leaveTournament(tournament.id);
                   });
-                  await leaveTournament(tournament.id);
-                });
-              }}
-            >
-              Leave
-            </button>
-          ) : tournament.users.length < tournament.size ? (
-            <button
-              onClick={async () => {
-                startTransition(async () => {
-                  optimisticUpdateTournament({ action: "join", tournament });
-                  await joinTournament(tournament.id);
-                });
-              }}
-            >
-              Join
-            </button>
-          ) : (
-            <>Room Full</>
-          )}
+                }}
+              >
+                Leave
+              </button>
+            ) : tournament.users.length < tournament.size ? (
+              <button
+                onClick={async () => {
+                  startTransition(async () => {
+                    optimisticUpdateTournament({ action: "join", tournament });
+                    await joinTournament(tournament.id);
+                  });
+                }}
+              >
+                Join
+              </button>
+            ) : (
+              <>Room Full</>
+            ))}
         </div>
       ))}
     </>

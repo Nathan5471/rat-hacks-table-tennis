@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { authenticated } from "@/controllers/auth.js";
 
-const appRoutes = ["/home"];
+const appRoutes = ["/home", "/tournaments"];
 const siteRoutes = ["/login", "/signup", "/", "/admin"];
 const adminRoutes = ["/adminpanel", "/adminpanel/create"];
 
