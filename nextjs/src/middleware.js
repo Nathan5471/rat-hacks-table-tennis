@@ -3,7 +3,7 @@ import { authenticated } from "@/controllers/auth.js";
 
 const appRoutes = ["/home"];
 const siteRoutes = ["/login", "/signup", "/", "/admin"];
-const adminRoutes = ["/adminpanel"];
+const adminRoutes = ["/adminpanel", "/adminpanel/create"];
 
 export async function middleware(req) {
   if (
@@ -31,5 +31,5 @@ export async function middleware(req) {
     return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL("/home", req.url));
+  return NextResponse.redirect(new URL("/", req.url));
 }

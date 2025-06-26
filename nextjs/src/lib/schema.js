@@ -66,6 +66,7 @@ export const tournaments = sqliteTable(
   "Tournament",
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
     size: integer("size").notNull(),
     status: text("status").notNull().default("upcoming"),
   },

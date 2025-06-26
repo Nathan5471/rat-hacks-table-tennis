@@ -1,0 +1,1 @@
+ALTER TABLE `Tournament` ADD `name` text NOT NULL;
