@@ -24,7 +24,7 @@ export default {
 	async fetch(request, env, ctx) {
 		const url = new URL(request.url);
 		let path = url.pathname.split("/");
-		path.splice(0, 1);
+		path.splice(0, 2);
 
 		switch (path[0]) {
 			case "ws":
@@ -51,7 +51,7 @@ export default {
 				return new Response("Admin created successfully", { status: 200 });
 			}
 			default:
-				return new Response("Not Found", { status: 404 });
+				return new Response("Hello from the api", { status: 200 });
 		}
 	},
 };

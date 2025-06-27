@@ -10,7 +10,7 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "vars": {
     "NODE_ENV": "production",
-    "API_URL": "/api",
+    "NEXT_PUBLIC_WS_SERVER": "/api",
     "APP_NAME": "Table Tennis Tournament"
   },
   "assets": {
