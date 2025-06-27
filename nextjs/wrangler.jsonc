@@ -8,6 +8,11 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "vars": {
+    "NODE_ENV": "production",
+    "API_URL": "/api",
+    "APP_NAME": "Table Tennis Tournament"
+  },
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
@@ -37,6 +42,12 @@
       "binding": "WEBSOCKETS_SERVICE",
       "service": "websockets",
       "entrypoint": "TournamentEntry"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "*hvhs.us/*",
+      "zone_name": "hvhs.us"
     }
   ]
 

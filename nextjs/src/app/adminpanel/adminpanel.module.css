@@ -1,0 +1,200 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background-color: #fefae0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #283618;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logoutForm {
+  margin: 0;
+}
+
+.logoutButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  background-color: #dda15e;
+  color: #283618;
+}
+
+.logoutButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.createLink {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  background-color: #606c38;
+  color: #fefae0;
+}
+
+.createLink:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tournamentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #283618;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.tournamentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tournamentCard {
+  background-color: #283618;
+  border-radius: 10px;
+  padding: 1.25rem;
+  color: #fefae0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tournamentName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #fefae0;
+}
+
+.tournamentActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  min-width: 70px;
+}
+
+.editButton {
+  background-color: #606c38;
+  color: #fefae0;
+}
+
+.editButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.deleteButton {
+  background-color: #dda15e;
+  color: #283618;
+}
+
+.deleteButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.startButton {
+  background-color: #fefae0;
+  color: #283618;
+}
+
+.startButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.liveButton {
+  background-color: #fefae0;
+  color: #283618;
+}
+
+.liveButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .createLink,
+  .logoutButton {
+    flex: 1;
+    min-width: 120px;
+  }
+}

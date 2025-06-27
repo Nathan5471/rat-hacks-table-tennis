@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { editTournament } from "@/actions/tournamentActions";
+import styles from "./edit.module.css";
 
 export default function EditClient({ name, size, users, id }) {
   const [newName, setNewName] = useState(name);
@@ -15,29 +16,50 @@ export default function EditClient({ name, size, users, id }) {
   }, []);
 
   return (
-    <>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Edit Tournament</h1>
+
       <form
+        className={styles.form}
         onSubmit={(e) => {
           e.preventDefault();
           editTournament(id, newName, newSize);
         }}
       >
-        <select
-          value={newSize}
-          onChange={(e) => setNewSize(Number(e.target.value))}
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Tournament Name</label>
+          <input
+            className={styles.input}
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="Enter tournament name"
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Tournament Size</label>
+          <select
+            className={styles.select}
+            value={newSize}
+            onChange={(e) => setNewSize(Number(e.target.value))}
+          >
+            {sizeOptions.map((o) => (
+              <option key={o} value={o}>
+                {o} participants
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={!newName.trim()}
         >
-          {sizeOptions.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <input
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-        ></input>
-        <button type="submit">Edit</button>
+          Save Changes
+        </button>
       </form>
-    </>
+    </div>
   );
 }

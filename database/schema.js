@@ -43,9 +43,18 @@ export const matches = sqliteTable("Match", {
 });
 
 export const matchRelations = relations(matches, ({ one }) => ({
-  player1: one(users),
-  player2: one(users),
-  tournament: one(tournaments),
+  player1: one(users, {
+    fields: [matches.player1Id],
+    references: [users.id],
+  }),
+  player2: one(users, {
+    fields: [matches.player2Id],
+    references: [users.id],
+  }),
+  tournament: one(tournaments, {
+    fields: [matches.tournamentId],
+    references: [tournaments.id],
+  }),
 }));
 
 export const tournaments = sqliteTable(

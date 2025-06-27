@@ -1,0 +1,160 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.userInfo {
+  background-color: #283618;
+  border-radius: 10px;
+  padding: 1.25rem;
+  color: #fefae0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userRating {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.section {
+  background-color: #283618;
+  border-radius: 10px;
+  padding: 1.25rem;
+  color: #fefae0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #fefae0;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tournamentItem {
+  background-color: #606c38;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tournamentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tournamentName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fefae0;
+  margin: 0;
+}
+
+.tournamentDetails {
+  font-size: 0.875rem;
+  color: #fefae0;
+  opacity: 0.9;
+}
+
+.tournamentStanding {
+  background-color: #dda15e;
+  color: #283618;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.matchItem {
+  background-color: #606c38;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.matchPlayers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.matchPlayer {
+  font-size: 0.9rem;
+  color: #fefae0;
+}
+
+.winnerPlayer {
+  font-weight: 600;
+  color: #dda15e;
+}
+
+.matchScore {
+  background-color: #fefae0;
+  color: #283618;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.matchTournament {
+  font-size: 0.8rem;
+  color: #fefae0;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.emptyState {
+  text-align: center;
+  color: #fefae0;
+  opacity: 0.7;
+  font-style: italic;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .homeContainer {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .section {
+    padding: 1rem;
+  }
+
+  .tournamentItem,
+  .matchItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tournamentStanding,
+  .matchScore {
+    align-self: flex-end;
+  }
+}

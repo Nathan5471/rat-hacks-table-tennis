@@ -2,14 +2,32 @@
 
 import { startTournament, deleteTournament } from "@/actions/tournamentActions";
 import Link from "next/link";
+import styles from "./adminpanel.module.css";
 
 export default function UpcomingTournament({ tournament }) {
   return (
-    <div>
-      {tournament.name}{" "}
-      <Link href={`/adminpanel/edit/${tournament.id}`}>Edit</Link>{" "}
-      <button onClick={() => deleteTournament(tournament.id)}>Delete</button>
-      <button onClick={() => startTournament(tournament.id)}>Start</button>
+    <div className={styles.tournamentCard}>
+      <h3 className={styles.tournamentName}>{tournament.name}</h3>
+      <div className={styles.tournamentActions}>
+        <Link
+          href={`/adminpanel/edit/${tournament.id}`}
+          className={`${styles.actionButton} ${styles.editButton}`}
+        >
+          Edit
+        </Link>
+        <button
+          onClick={() => startTournament(tournament.id)}
+          className={`${styles.actionButton} ${styles.startButton}`}
+        >
+          Start
+        </button>
+        <button
+          onClick={() => deleteTournament(tournament.id)}
+          className={`${styles.actionButton} ${styles.deleteButton}`}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

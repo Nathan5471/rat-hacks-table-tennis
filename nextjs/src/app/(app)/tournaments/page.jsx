@@ -12,10 +12,15 @@ export default async function Tournaments() {
   const allTournaments = await db.query.tournaments.findMany({
     with: {
       users: {
-        user: {
-          columns: {
-            id: true,
-            username: true,
+        columns: {
+          standing: true,
+        },
+        with: {
+          user: {
+            columns: {
+              id: true,
+              username: true,
+            },
           },
         },
       },

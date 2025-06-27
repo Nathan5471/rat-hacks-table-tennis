@@ -35,7 +35,14 @@
 			"tag": "v1",
 			"new_classes": ["Tournament"]
 		}
+	],
+	"routes": [
+		{
+			"pattern": "*hvhs.us/api/*",
+			"zone_name": "hvhs.us"
+		}
 	]
+
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

@@ -1,0 +1,201 @@
+.tournamentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.tournamentCard {
+  background-color: #283618;
+  border-radius: 10px;
+  padding: 1.25rem;
+  color: #fefae0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tournamentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tournamentName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tournamentStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.statusCompleted {
+  background-color: #606c38;
+  color: #fefae0;
+}
+
+.statusOngoing {
+  background-color: #dda15e;
+  color: #283618;
+}
+
+.statusUpcoming {
+  background-color: #fefae0;
+  color: #283618;
+}
+
+.tournamentActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.actionButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+}
+
+.joinButton {
+  background-color: #606c38;
+  color: #fefae0;
+}
+
+.joinButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.leaveButton {
+  background-color: #dda15e;
+  color: #283618;
+}
+
+.leaveButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.watchButton {
+  background-color: #fefae0;
+  color: #283618;
+}
+
+.watchButton:hover {
+  transform: translateY(-2px) translateX(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.roomFullText {
+  color: #dda15e;
+  font-weight: 500;
+  font-style: italic;
+  padding: 0.75rem 1.5rem;
+}
+
+.loadingState {
+  pointer-events: none;
+}
+
+.tournamentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #fefae0;
+}
+
+.tournamentDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rankings {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.rankingEntry {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #fefae0;
+  font-weight: 500;
+  padding: 0.1rem 0;
+  white-space: nowrap;
+}
+
+.participantCount {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.9;
+}
+
+.participantIcon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+@media (max-width: 768px) {
+  .tournamentsList {
+    padding: 1rem;
+  }
+
+  .tournamentCard {
+    padding: 1rem;
+  }
+
+  .tournamentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tournamentActions {
+    flex-wrap: wrap;
+  }
+
+  .actionButton {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .rankings {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

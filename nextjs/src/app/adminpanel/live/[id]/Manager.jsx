@@ -1,11 +1,12 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
 import styles from "./manager.module.css";
 
 export default function Manager({ token }) {
   const { id } = useParams();
+  const router = useRouter();
 
   const connection = useRef(null);
 
@@ -51,6 +52,11 @@ export default function Manager({ token }) {
 
     on("scores", ({ scores }) => {
       setScores(scores);
+    });
+
+    on("tournamentOver", ({ winner }) => {
+      alert(winner + " won");
+      router.push("/adminpanel");
     });
 
     socket.addEventListener("open", (e) => {

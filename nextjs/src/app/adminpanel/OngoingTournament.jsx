@@ -1,14 +1,27 @@
 "use client";
 
-import { startTournament, deleteTournament } from "@/actions/tournamentActions";
+import { deleteTournament } from "@/actions/tournamentActions";
 import Link from "next/link";
+import styles from "./adminpanel.module.css";
 
-export default function UpcomingTournament({ tournament }) {
+export default function OngoingTournament({ tournament }) {
   return (
-    <div>
-      {tournament.name}{" "}
-      <Link href={`/adminpanel/live/${tournament.id}`}>Live</Link>{" "}
-      <button onClick={() => deleteTournament(tournament.id)}>Delete</button>
+    <div className={styles.tournamentCard}>
+      <h3 className={styles.tournamentName}>{tournament.name}</h3>
+      <div className={styles.tournamentActions}>
+        <Link
+          href={`/adminpanel/live/${tournament.id}`}
+          className={`${styles.actionButton} ${styles.liveButton}`}
+        >
+          Live
+        </Link>
+        <button
+          onClick={() => deleteTournament(tournament.id)}
+          className={`${styles.actionButton} ${styles.deleteButton}`}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
